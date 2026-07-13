@@ -31,7 +31,7 @@ where `Q` is normalized quality, `C_n` normalized cost, `L_n` normalized latency
 
 - [x] Research scope and IEEE report v0.1
 - [x] Reproducible configuration package
-- [ ] Dataset acquisition and provenance
+- [x] Dataset acquisition and provenance
 - [ ] Cleaning and feature engineering
 - [ ] XGBoost router
 - [ ] LinUCB router
