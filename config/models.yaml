@@ -1,0 +1,13 @@
+models:
+  - id: arm-fast
+    provider: benchmark
+    display_name: Fast model arm
+  - id: arm-balanced
+    provider: benchmark
+    display_name: Balanced model arm
+  - id: arm-reasoning
+    provider: benchmark
+    display_name: Reasoning model arm
+  - id: arm-premium
+    provider: benchmark
+    display_name: Premium model arm

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: Better Router Adaptive Research
+type: software
+message: Please cite this repository and the accompanying paper when using this work.
+authors:
+  - family-names: Fritz Gutiérrez
+    given-names: Rodolfo Eduardo
+repository-code: https://github.com/FitoFritzG/better-router-adaptive-research
+version: 0.1.0
+date-released: 2026-07-13
+license: MIT
+keywords:
+  - multi-LLM routing
+  - contextual bandits
+  - XGBoost
+  - cost-aware inference

@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.5, pytest-9.0.2, pluggy-1.6.0 -- /opt/pyvenv/bin/python3
+cachedir: .pytest_cache
+metadata: {'Python': '3.13.5', 'Platform': 'Linux-4.4.0-x86_64-with-glibc2.41', 'Packages': {'pytest': '9.0.2', 'pluggy': '1.6.0'}, 'Plugins': {'json-report': '1.5.0', 'ddtrace': '4.4.0', 'asyncio': '1.3.0', 'cov': '7.0.0', 'anyio': '4.13.0', 'Faker': '40.1.2', 'metadata': '3.1.1'}, 'PLATFORM': 'linux/amd64', 'CI': 'true'}
+rootdir: /mnt/data/better-router-adaptive-research
+configfile: pyproject.toml
+plugins: json-report-1.5.0, ddtrace-4.4.0, asyncio-1.3.0, cov-7.0.0, anyio-4.13.0, Faker-40.1.2, metadata-3.1.1
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 8 items
+
+tests/unit/test_config.py::test_loads_valid_configuration PASSED         [ 12%]
+tests/unit/test_config.py::test_reward_weights_must_sum_to_one PASSED    [ 25%]
+tests/unit/test_config.py::test_split_ratios_must_sum_to_one PASSED      [ 37%]
+tests/unit/test_config.py::test_exactly_four_model_arms_are_required PASSED [ 50%]
+tests/unit/test_config.py::test_duplicate_model_ids_fail PASSED          [ 62%]
+tests/unit/test_config.py::test_duplicate_seeds_fail PASSED              [ 75%]
+tests/unit/test_config.py::test_negative_reward_weight_fails PASSED      [ 87%]
+tests/unit/test_config.py::test_unknown_model_id_fails_when_registry_is_provided PASSED [100%]
+
+============================== 8 passed in 0.18s ===============================

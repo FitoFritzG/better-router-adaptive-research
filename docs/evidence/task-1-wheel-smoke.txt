@@ -1,0 +1,1 @@
+WHEEL_SMOKE_OK name=better-router-adaptive models=4
