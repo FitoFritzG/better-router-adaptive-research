@@ -1,0 +1,31 @@
+{
+  "columns": [
+    "prompt_id",
+    "prompt_text",
+    "dataset",
+    "task_group",
+    "model_id",
+    "quality",
+    "input_tokens",
+    "output_tokens",
+    "cost_usd",
+    "latency_ms",
+    "success",
+    "data_origin"
+  ],
+  "evidence_label": "DEMO SINT\u00c9TICA \u2014 NO ES RESULTADO EXPERIMENTAL",
+  "format": "canonical_long",
+  "model_arms": [
+    "arm-fast",
+    "arm-balanced",
+    "arm-reasoning",
+    "arm-premium"
+  ],
+  "primary_key": [
+    "prompt_id",
+    "model_id"
+  ],
+  "prompts": 12,
+  "rows": 48,
+  "schema_version": "1.0.0"
+}

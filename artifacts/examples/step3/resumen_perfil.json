@@ -1,0 +1,14 @@
+{
+  "datasets": [
+    "gsm8k",
+    "hellaswag",
+    "mbpp",
+    "mmlu",
+    "synthetic"
+  ],
+  "evidence_label": "DEMO SINT\u00c9TICA \u2014 NO ES RESULTADO EXPERIMENTAL",
+  "models": 4,
+  "prompts": 12,
+  "rows": 48,
+  "task_groups": 4
+}

@@ -1,0 +1,8 @@
+metric,value
+rows_before,48
+exact_duplicates_removed,0
+invalid_rows_removed,0
+incomplete_prompt_rows_removed,0
+rows_after,48
+prompt_groups_before,12
+prompt_groups_after,12

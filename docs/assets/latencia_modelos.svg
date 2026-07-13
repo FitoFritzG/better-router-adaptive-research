@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+<title id="title">Latencia sintética por brazo</title>
+<desc id="desc">Gráfico generado con el fixture sintético del proyecto; no corresponde a resultados experimentales.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#111} .axis{stroke:#111;stroke-width:1} .grid{stroke:#ddd;stroke-width:1} .bar{fill:#777} .point{fill:#111} .note{font-size:12px;font-weight:bold} .label{font-size:13px} .title{font-size:20px;font-weight:bold}</style>
+<text x="380" y="30" text-anchor="middle" class="title">Latencia media por brazo de modelo</text>
+<text x="380" y="52" text-anchor="middle" class="note">DEMO SINTÉTICA — NO ES RESULTADO EXPERIMENTAL</text>
+<line x1="80" y1="350" x2="720" y2="350" class="axis"/>
+<line x1="80" y1="80" x2="80" y2="350" class="axis"/>
+<rect x="110" y="306.4" width="90" height="43.6" class="bar"/>
+<text x="155" y="298.4" text-anchor="middle" class="label">153 ms</text>
+<text x="155" y="375" text-anchor="middle" class="label">fast</text>
+<rect x="260" y="259.9" width="90" height="90.1" class="bar"/>
+<text x="305" y="251.9" text-anchor="middle" class="label">316 ms</text>
+<text x="305" y="375" text-anchor="middle" class="label">balanced</text>
+<rect x="410" y="185.0" width="90" height="165.0" class="bar"/>
+<text x="455" y="177.0" text-anchor="middle" class="label">579 ms</text>
+<text x="455" y="375" text-anchor="middle" class="label">reasoning</text>
+<rect x="560" y="110.0" width="90" height="240.0" class="bar"/>
+<text x="605" y="102.0" text-anchor="middle" class="label">842 ms</text>
+<text x="605" y="375" text-anchor="middle" class="label">premium</text>
+<text x="24" y="220" text-anchor="middle" transform="rotate(-90 24 220)" class="label">Latencia media sintética (ms)</text>
+</svg>
