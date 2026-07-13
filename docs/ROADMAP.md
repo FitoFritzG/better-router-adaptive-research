@@ -1,41 +1,37 @@
-# Research Roadmap
+# Hoja de ruta de investigación
 
-## Phase 1 — Reproducible foundation
+## Fase 1 — Base reproducible ✅
 
-- Python package and immutable experiment configuration.
-- Unit tests, linting, typing, coverage, CI, citation metadata, and research protocol.
+- Paquete Python, configuración inmutable, pruebas, cobertura, CI y citación.
 
-## Phase 2 — Dataset and provenance
+## Fase 2 — Dataset y procedencia ✅
 
-- Acquire the official RouterBench data or an explicitly documented alternative.
-- Record source, license, retrieval date, size, and SHA-256.
-- Commit only compact synthetic fixtures and manifests.
+- Fuente oficial de RouterBench, licencia, revisión, tamaño y SHA-256.
+- Fixture sintético y política de no redistribución.
 
-## Phase 3 — Data pipeline
+## Fase 3 — Pipeline de datos ✅
 
-- Clean and normalize the benchmark into one row per `(prompt_id, model_id)`.
-- Split by prompt ID to avoid leakage.
-- Generate pre-inference features only.
+- Conversión controlada del pickle verificado a CSV comprimido.
+- Formato largo `(prompt_id, model_id)`.
+- Validación, limpieza, reportes, manifiesto y gráficos.
 
-## Phase 4 — Routing algorithms
+## Fase 4 — Características y particiones
 
-- Deterministic Better Router proxy.
-- Offline oracle.
-- XGBoost utility predictor.
-- Disjoint LinUCB contextual bandit.
+- Variables conocidas antes de inferencia.
+- División `70/15/15` agrupada por prompt.
+- Pruebas automáticas contra fuga de información.
 
-## Phase 5 — Evaluation
+## Fase 5 — Utilidad y referencias
 
-- Mean quality, cost, latency, error rate, utility, top-1 oracle match, and regret.
-- Paired bootstrap intervals and sensitivity analysis.
-- Generated tables and figures tied to a run manifest.
+- Función de utilidad, Better Rules Proxy y Oracle offline.
 
-## Phase 6 — Publication
+## Fase 6 — Algoritmos
 
-- Final IEEE report.
-- Scientific poster.
-- Reproducibility package.
-- Better AI research article.
-- Optional archived release and DOI.
+- XGBoost con ajuste exclusivo en validación.
+- LinUCB disjunto con replay prequential.
 
-Production integration into Better Router is outside the academic phase and requires a separate design, shadow-mode evaluation, and deployment safety review.
+## Fase 7 — Evaluación y publicación
+
+- Métricas, bootstrap pareado, sensibilidad, informe IEEE, póster y artículo Better AI.
+
+La integración con Better Router en producción queda fuera de la fase académica y exigirá modo sombra y revisión de seguridad.
