@@ -1,0 +1,49 @@
+prompt_id,prompt_text,dataset,task_group,model_id,quality,input_tokens,output_tokens,cost_usd,latency_ms,success,data_origin
+code-01,Implement a Python function that reverses a linked list.,mbpp,coding,arm-fast,0.630,74,55,0.000150,110,1,synthetic_test_fixture_not_experimental_evidence
+code-01,Implement a Python function that reverses a linked list.,mbpp,coding,arm-balanced,0.770,74,115,0.000450,263,1,synthetic_test_fixture_not_experimental_evidence
+code-01,Implement a Python function that reverses a linked list.,mbpp,coding,arm-reasoning,0.870,74,185,0.001100,526,1,synthetic_test_fixture_not_experimental_evidence
+code-01,Implement a Python function that reverses a linked list.,mbpp,coding,arm-premium,0.920,74,240,0.002100,789,1,synthetic_test_fixture_not_experimental_evidence
+code-02,Find the bug in a binary search implementation.,mbpp,coding,arm-fast,0.640,62,56,0.000151,117,1,synthetic_test_fixture_not_experimental_evidence
+code-02,Find the bug in a binary search implementation.,mbpp,coding,arm-balanced,0.780,62,116,0.000454,270,1,synthetic_test_fixture_not_experimental_evidence
+code-02,Find the bug in a binary search implementation.,mbpp,coding,arm-reasoning,0.880,62,186,0.001111,533,1,synthetic_test_fixture_not_experimental_evidence
+code-02,Find the bug in a binary search implementation.,mbpp,coding,arm-premium,0.930,62,241,0.002121,796,1,synthetic_test_fixture_not_experimental_evidence
+code-03,Write a SQL query that groups monthly sales by region.,synthetic,coding,arm-fast,0.650,58,57,0.000153,124,1,synthetic_test_fixture_not_experimental_evidence
+code-03,Write a SQL query that groups monthly sales by region.,synthetic,coding,arm-balanced,0.790,58,117,0.000459,277,1,synthetic_test_fixture_not_experimental_evidence
+code-03,Write a SQL query that groups monthly sales by region.,synthetic,coding,arm-reasoning,0.890,58,187,0.001122,540,1,synthetic_test_fixture_not_experimental_evidence
+code-03,Write a SQL query that groups monthly sales by region.,synthetic,coding,arm-premium,0.940,58,242,0.002142,803,1,synthetic_test_fixture_not_experimental_evidence
+math-01,Solve 3x + 7 = 25 and explain the steps.,gsm8k,mathematics,arm-fast,0.600,42,58,0.000154,131,1,synthetic_test_fixture_not_experimental_evidence
+math-01,Solve 3x + 7 = 25 and explain the steps.,gsm8k,mathematics,arm-balanced,0.750,42,118,0.000463,284,1,synthetic_test_fixture_not_experimental_evidence
+math-01,Solve 3x + 7 = 25 and explain the steps.,gsm8k,mathematics,arm-reasoning,0.890,42,188,0.001133,547,1,synthetic_test_fixture_not_experimental_evidence
+math-01,Solve 3x + 7 = 25 and explain the steps.,gsm8k,mathematics,arm-premium,0.940,42,243,0.002163,810,1,synthetic_test_fixture_not_experimental_evidence
+math-02,Calculate the probability of two heads in three fair coin tosses.,gsm8k,mathematics,arm-fast,0.610,51,59,0.000156,138,1,synthetic_test_fixture_not_experimental_evidence
+math-02,Calculate the probability of two heads in three fair coin tosses.,gsm8k,mathematics,arm-balanced,0.760,51,119,0.000468,291,1,synthetic_test_fixture_not_experimental_evidence
+math-02,Calculate the probability of two heads in three fair coin tosses.,gsm8k,mathematics,arm-reasoning,0.900,51,189,0.001144,554,1,synthetic_test_fixture_not_experimental_evidence
+math-02,Calculate the probability of two heads in three fair coin tosses.,gsm8k,mathematics,arm-premium,0.950,51,244,0.002184,817,1,synthetic_test_fixture_not_experimental_evidence
+math-03,Differentiate x cubed plus two x.,synthetic,mathematics,arm-fast,0.620,38,60,0.000157,145,1,synthetic_test_fixture_not_experimental_evidence
+math-03,Differentiate x cubed plus two x.,synthetic,mathematics,arm-balanced,0.770,38,120,0.000472,298,1,synthetic_test_fixture_not_experimental_evidence
+math-03,Differentiate x cubed plus two x.,synthetic,mathematics,arm-reasoning,0.910,38,190,0.001155,561,1,synthetic_test_fixture_not_experimental_evidence
+math-03,Differentiate x cubed plus two x.,synthetic,mathematics,arm-premium,0.960,38,245,0.002205,824,1,synthetic_test_fixture_not_experimental_evidence
+reason-01,Determine which conclusion follows from the stated premises.,mmlu,reasoning,arm-fast,0.590,66,61,0.000159,152,1,synthetic_test_fixture_not_experimental_evidence
+reason-01,Determine which conclusion follows from the stated premises.,mmlu,reasoning,arm-balanced,0.740,66,121,0.000477,305,1,synthetic_test_fixture_not_experimental_evidence
+reason-01,Determine which conclusion follows from the stated premises.,mmlu,reasoning,arm-reasoning,0.900,66,191,0.001166,568,1,synthetic_test_fixture_not_experimental_evidence
+reason-01,Determine which conclusion follows from the stated premises.,mmlu,reasoning,arm-premium,0.950,66,246,0.002226,831,1,synthetic_test_fixture_not_experimental_evidence
+reason-02,Explain why the proposed causal inference is invalid.,mmlu,reasoning,arm-fast,0.600,71,62,0.000160,159,1,synthetic_test_fixture_not_experimental_evidence
+reason-02,Explain why the proposed causal inference is invalid.,mmlu,reasoning,arm-balanced,0.750,71,122,0.000481,312,1,synthetic_test_fixture_not_experimental_evidence
+reason-02,Explain why the proposed causal inference is invalid.,mmlu,reasoning,arm-reasoning,0.910,71,192,0.001177,575,1,synthetic_test_fixture_not_experimental_evidence
+reason-02,Explain why the proposed causal inference is invalid.,mmlu,reasoning,arm-premium,0.960,71,247,0.002247,838,1,synthetic_test_fixture_not_experimental_evidence
+reason-03,Choose the most coherent continuation of the argument.,hellaswag,reasoning,arm-fast,0.610,57,63,0.000162,166,1,synthetic_test_fixture_not_experimental_evidence
+reason-03,Choose the most coherent continuation of the argument.,hellaswag,reasoning,arm-balanced,0.760,57,123,0.000486,319,1,synthetic_test_fixture_not_experimental_evidence
+reason-03,Choose the most coherent continuation of the argument.,hellaswag,reasoning,arm-reasoning,0.920,57,193,0.001188,582,1,synthetic_test_fixture_not_experimental_evidence
+reason-03,Choose the most coherent continuation of the argument.,hellaswag,reasoning,arm-premium,0.970,57,248,0.002268,845,1,synthetic_test_fixture_not_experimental_evidence
+general-01,Summarize the purpose of a circuit breaker in software systems.,synthetic,general,arm-fast,0.660,64,64,0.000163,173,1,synthetic_test_fixture_not_experimental_evidence
+general-01,Summarize the purpose of a circuit breaker in software systems.,synthetic,general,arm-balanced,0.770,64,124,0.000491,326,1,synthetic_test_fixture_not_experimental_evidence
+general-01,Summarize the purpose of a circuit breaker in software systems.,synthetic,general,arm-reasoning,0.830,64,194,0.001199,589,1,synthetic_test_fixture_not_experimental_evidence
+general-01,Summarize the purpose of a circuit breaker in software systems.,synthetic,general,arm-premium,0.880,64,249,0.002289,852,1,synthetic_test_fixture_not_experimental_evidence
+general-02,Describe the difference between weather and climate.,synthetic,general,arm-fast,0.670,49,65,0.000165,180,1,synthetic_test_fixture_not_experimental_evidence
+general-02,Describe the difference between weather and climate.,synthetic,general,arm-balanced,0.780,49,125,0.000495,333,1,synthetic_test_fixture_not_experimental_evidence
+general-02,Describe the difference between weather and climate.,synthetic,general,arm-reasoning,0.840,49,195,0.001210,596,1,synthetic_test_fixture_not_experimental_evidence
+general-02,Describe the difference between weather and climate.,synthetic,general,arm-premium,0.890,49,250,0.002310,859,1,synthetic_test_fixture_not_experimental_evidence
+general-03,Give a concise definition of machine learning.,synthetic,general,arm-fast,0.680,35,66,0.000167,187,1,synthetic_test_fixture_not_experimental_evidence
+general-03,Give a concise definition of machine learning.,synthetic,general,arm-balanced,0.790,35,126,0.000500,340,1,synthetic_test_fixture_not_experimental_evidence
+general-03,Give a concise definition of machine learning.,synthetic,general,arm-reasoning,0.850,35,196,0.001221,603,1,synthetic_test_fixture_not_experimental_evidence
+general-03,Give a concise definition of machine learning.,synthetic,general,arm-premium,0.900,35,251,0.002331,866,1,synthetic_test_fixture_not_experimental_evidence

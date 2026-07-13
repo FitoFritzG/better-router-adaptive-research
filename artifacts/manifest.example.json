@@ -1,0 +1,21 @@
+{
+  "artifact_type": "example_manifest_not_experimental_evidence",
+  "dataset": {
+    "name": "RouterBench",
+    "selected_file": "routerbench_0shot.pkl",
+    "revision": "a4dcf98b60f1faf85c572ee5f20cc0069ca0501a",
+    "sha256": "ba4f77f19517610a707c374e99322d7750c30fc4ae7ff5527888595a1e65d36d",
+    "byte_count": 99567659,
+    "license_status": "not_declared_on_dataset_card",
+    "redistributed": false
+  },
+  "experiment": {
+    "configuration": "config/experiment.yaml",
+    "models": "config/models.yaml",
+    "result_values_present": false
+  },
+  "reproducibility": {
+    "git_commit": "example-only-not-a-real-run",
+    "generated_at_utc": "2000-01-01T00:00:00+00:00"
+  }
+}
