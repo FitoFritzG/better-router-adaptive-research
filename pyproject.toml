@@ -36,11 +36,13 @@ dependencies = [
 app = ["streamlit>=1.37,<2"]
 dev = [
   "hatchling>=1.25,<2",
-  "mypy>=1.11,<2",
-  "pytest>=8.3,<10",
-  "pytest-cov>=5,<8",
-  "ruff>=0.6,<1",
-  "types-PyYAML>=6.0.12",
+  "build==1.5.1",
+  "mypy==1.19.1",
+  "pytest==9.0.2",
+  "pytest-cov==7.0.0",
+  "ruff==0.14.10",
+  "types-PyYAML==6.0.12.20250915",
+  "pandas-stubs==2.2.3.250527",
 ]
 
 [tool.hatch.build.targets.wheel]

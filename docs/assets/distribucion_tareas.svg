@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+<title id="title">Distribución de tareas sintéticas</title>
+<desc id="desc">Gráfico generado con el fixture sintético del proyecto; no corresponde a resultados experimentales.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#111} .axis{stroke:#111;stroke-width:1} .grid{stroke:#ddd;stroke-width:1} .bar{fill:#777} .point{fill:#111} .note{font-size:12px;font-weight:bold} .label{font-size:13px} .title{font-size:20px;font-weight:bold}</style>
+<text x="380" y="30" text-anchor="middle" class="title">Distribución de prompts por grupo de tarea</text>
+<text x="380" y="52" text-anchor="middle" class="note">DEMO SINTÉTICA — NO ES RESULTADO EXPERIMENTAL</text>
+<line x1="80" y1="350" x2="720" y2="350" class="axis"/>
+<line x1="80" y1="80" x2="80" y2="350" class="axis"/>
+<rect x="120" y="130.0" width="80" height="220.0" class="bar"/>
+<text x="160" y="122.0" text-anchor="middle" class="label">3</text>
+<text x="160" y="375" text-anchor="middle" class="label">coding</text>
+<rect x="270" y="130.0" width="80" height="220.0" class="bar"/>
+<text x="310" y="122.0" text-anchor="middle" class="label">3</text>
+<text x="310" y="375" text-anchor="middle" class="label">mathematics</text>
+<rect x="420" y="130.0" width="80" height="220.0" class="bar"/>
+<text x="460" y="122.0" text-anchor="middle" class="label">3</text>
+<text x="460" y="375" text-anchor="middle" class="label">reasoning</text>
+<rect x="570" y="130.0" width="80" height="220.0" class="bar"/>
+<text x="610" y="122.0" text-anchor="middle" class="label">3</text>
+<text x="610" y="375" text-anchor="middle" class="label">general</text>
+<text x="24" y="220" text-anchor="middle" transform="rotate(-90 24 220)" class="label">Prompts únicos</text>
+</svg>

@@ -93,8 +93,7 @@ class ExperimentConfig:
         if len(set(self.seeds)) != len(self.seeds):
             raise ValueError("seeds must be unique")
         if any(
-            isinstance(seed, bool) or not isinstance(seed, int) or seed < 0
-            for seed in self.seeds
+            isinstance(seed, bool) or not isinstance(seed, int) or seed < 0 for seed in self.seeds
         ):
             raise ValueError("seeds must be non-negative integers")
 
@@ -223,8 +222,7 @@ def load_experiment_config(
         models = tuple(registry[model_id] for model_id in model_ids)
     else:
         models = tuple(
-            ModelConfig(model_id=model_id, provider="unspecified")
-            for model_id in model_ids
+            ModelConfig(model_id=model_id, provider="unspecified") for model_id in model_ids
         )
 
     return ExperimentConfig(

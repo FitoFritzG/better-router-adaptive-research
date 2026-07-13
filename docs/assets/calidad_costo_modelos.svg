@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+<title id="title">Calidad y costo sintéticos por brazo</title>
+<desc id="desc">Gráfico generado con el fixture sintético del proyecto; no corresponde a resultados experimentales.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#111} .axis{stroke:#111;stroke-width:1} .grid{stroke:#ddd;stroke-width:1} .bar{fill:#777} .point{fill:#111} .note{font-size:12px;font-weight:bold} .label{font-size:13px} .title{font-size:20px;font-weight:bold}</style>
+<text x="380" y="30" text-anchor="middle" class="title">Calidad media frente a costo medio</text>
+<text x="380" y="52" text-anchor="middle" class="note">DEMO SINTÉTICA — NO ES RESULTADO EXPERIMENTAL</text>
+<line x1="90" y1="350" x2="700" y2="350" class="axis"/>
+<line x1="90" y1="80" x2="90" y2="350" class="axis"/>
+<circle cx="110.0" cy="330.0" r="7" class="point"/>
+<text x="120.0" y="322.0" class="label">arm-fast</text>
+<circle cx="196.2" cy="218.2" r="7" class="point"/>
+<text x="206.2" y="210.2" class="label">arm-balanced</text>
+<circle cx="382.8" cy="134.8" r="7" class="point"/>
+<text x="392.8" y="126.8" class="label">arm-reasoning</text>
+<circle cx="670.0" cy="110.0" r="7" class="point"/>
+<text x="680.0" y="102.0" class="label">arm-premium</text>
+<text x="395" y="390" text-anchor="middle" class="label">Costo medio sintético (USD)</text>
+<text x="25" y="220" text-anchor="middle" transform="rotate(-90 25 220)" class="label">Calidad media sintética</text>
+</svg>
