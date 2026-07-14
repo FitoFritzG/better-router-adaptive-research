@@ -48,9 +48,21 @@ jobs:
           tests/unit/test_policies.py
           tests/unit/test_bootstrap.py
           tests/unit/test_routers.py
-      - name: Integration tests — Steps 3 to 7
+      - name: Integration — Step 3
         if: always()
-        run: python -m pytest -q tests/integration
+        run: python -m pytest -q tests/integration/test_step3_pipeline.py --tb=short
+      - name: Integration — Step 4
+        if: always()
+        run: python -m pytest -q tests/integration/test_step4_prepare.py --tb=short
+      - name: Integration — Step 5
+        if: always()
+        run: python -m pytest -q tests/integration/test_step5_baselines.py --tb=short
+      - name: Integration — Step 6
+        if: always()
+        run: python -m pytest -q tests/integration/test_step6_learn.py --tb=short
+      - name: Integration — Step 7
+        if: always()
+        run: python -m pytest -q tests/integration/test_step7_evaluate.py --tb=short
       - name: Full coverage gate
         if: always()
         run: >-
