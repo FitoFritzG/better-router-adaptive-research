@@ -1,6 +1,16 @@
-# Paper artifacts
+# Artefactos del informe y póster
 
-- `drafts/Informe_IEEE_Better_Router_Adaptive_v0_1.pdf` is the methodology-first draft.
-- `references.bib` contains the initial bibliography.
+## Integrantes
 
-Version 0.1 intentionally contains no invented experimental results. Tables and conclusions will be updated only from pipeline-generated artifacts.
+- Rodolfo Fritz
+- Benjamín Cerda
+- Felipe Friz
+
+## Estado
+
+- `drafts/Informe_IEEE_Better_Router_Adaptive_v0_1.pdf`: borrador metodológico inicial; aún debe actualizarse con los resultados definitivos y los tres integrantes.
+- `poster/poster_better_router.pdf`: póster científico generado desde los resultados agregados versionados.
+- `poster/build_poster.py`: generador reproducible del HTML del póster.
+- `references.bib`: bibliografía inicial.
+
+Las métricas del póster provienen de `artifacts/public/step7-real/` y no se escriben manualmente.

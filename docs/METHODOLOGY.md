@@ -52,3 +52,13 @@ Cada ejecución genera:
 - El pickle requiere una carga controlada y no es un formato seguro.
 - La clasificación de tareas se basa en el identificador del benchmark.
 - La selección de cuatro brazos se definirá después de inspeccionar los modelos disponibles en el artefacto real.
+
+## Evaluación real y aislamiento de procesos
+
+La evaluación final ejecuta cada semilla en un proceso `spawn` independiente. Esta decisión evita que el estado nativo de XGBoost, OpenMP y BLAS se acumule entre entrenamientos completos. El proceso principal valida la entrada, recolecta los CSV temporales de cada semilla y realiza después el bootstrap pareado.
+
+La versión de XGBoost queda fijada en `3.3.0`, que reprodujo exactamente los artefactos experimentales. Los límites de hilos nativos se fijan en uno para favorecer determinismo y estabilidad.
+
+## Naturaleza exploratoria
+
+Los cuatro brazos fueron seleccionados después de inspeccionar promedios globales de calidad y costo del artefacto. Esta selección se declara como amenaza a la validez y el estudio se presenta como prueba exploratoria de factibilidad, no como comparación confirmatoria preregistrada.

@@ -1,12 +1,16 @@
 cff-version: 1.2.0
 title: Better Router Adaptive Research
 type: software
-message: Please cite this repository and the accompanying paper when using this work.
+message: Cite este repositorio y el informe asociado al utilizar este trabajo.
 authors:
-  - family-names: Fritz Gutiérrez
-    given-names: Rodolfo Eduardo
+  - family-names: Fritz
+    given-names: Rodolfo
+  - family-names: Cerda
+    given-names: Benjamín
+  - family-names: Friz
+    given-names: Felipe
 repository-code: https://github.com/FitoFritzG/better-router-adaptive-research
-version: 0.1.0
+version: 0.2.0
 date-released: 2026-07-13
 license: MIT
 keywords:
@@ -14,3 +18,4 @@ keywords:
   - contextual bandits
   - XGBoost
   - cost-aware inference
+  - RouterBench

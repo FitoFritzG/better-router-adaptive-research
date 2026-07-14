@@ -1,0 +1,26 @@
+{
+  "bootstrap_baseline": "better-rules-proxy",
+  "bootstrap_samples": 2000,
+  "bootstrap_unit": "prompt_id",
+  "evidence_label": "RouterBench 0-shot \u2014 verificaci\u00f3n independiente",
+  "policies": [
+    "better-rules-proxy",
+    "fixed:gpt-4-1106-preview",
+    "fixed:mistralai/mistral-7b-chat",
+    "fixed:mistralai/mixtral-8x7b-chat",
+    "fixed:zero-one-ai/Yi-34B-Chat",
+    "linucb",
+    "oracle",
+    "xgboost"
+  ],
+  "schema_version": "1.0.0",
+  "seeds": [
+    42,
+    123,
+    2026,
+    31415,
+    271828
+  ],
+  "step": "step7_evaluation",
+  "test_prompts_pooled": 20263
+}

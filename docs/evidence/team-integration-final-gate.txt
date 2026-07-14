@@ -1,0 +1,34 @@
+Better Router Adaptive — Team integration final gate
+Date: 2026-07-14
+Authors: Rodolfo Fritz; Benjamín Cerda; Felipe Friz
+
+Archive reviewed: cerda_fritz.rar
+
+Functional verification
+- 128 tests passed
+- Branch coverage: 87.12 %
+- Coverage threshold: 85 %
+- Ruff lint: PASS
+- Ruff format: PASS
+- mypy strict: PASS
+- sdist build: PASS
+- wheel build: PASS
+- CLI smoke tests: PASS (download, convert, pipeline, prepare, baselines, learn, evaluate)
+
+Independent experimental reproduction
+- Dataset rows inspected locally: 145,988
+- Complete prompts: 36,497
+- Model arms per prompt: 4
+- Seeds: 42, 123, 2026, 31415, 271828
+- Bootstrap samples: 2,000
+- evaluation_summary.csv maximum numeric difference: 0.0
+- evaluation_per_seed.csv maximum numeric difference: 0.0
+- Non-numeric fields: exact match
+
+Corrective actions
+- Native XGBoost/OpenMP oversubscription limited.
+- XGBoost Booster handles released after use.
+- Each evaluation seed isolated in a spawned child process.
+- xgboost pinned to 3.3.0.
+- Processed RouterBench dataset excluded from public repository.
+- README and poster updated for all three authors.

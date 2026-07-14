@@ -8,6 +8,12 @@ on:
 permissions:
   contents: read
 
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -25,14 +31,26 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
-      - name: Configuration and acquisition tests
-        run: python -m pytest -q tests/unit/test_config.py tests/unit/test_schema.py
-      - name: Canonical pipeline unit tests
+      - name: Unit tests — configuration and data
+        run: >-
+          python -m pytest -q
+          tests/unit/test_config.py
+          tests/unit/test_schema.py
+          tests/unit/test_data_pipeline.py
+          tests/unit/test_data_pipeline_edges.py
+      - name: Unit tests — routing and evaluation
         if: always()
-        run: python -m pytest -q tests/unit/test_data_pipeline.py tests/unit/test_data_pipeline_edges.py
-      - name: Step 3 integration test
+        run: >-
+          python -m pytest -q
+          tests/unit/test_features.py
+          tests/unit/test_split.py
+          tests/unit/test_utility.py
+          tests/unit/test_policies.py
+          tests/unit/test_bootstrap.py
+          tests/unit/test_routers.py
+      - name: Integration tests — Steps 3 to 7
         if: always()
-        run: python -m pytest -q tests/integration/test_step3_pipeline.py
+        run: python -m pytest -q tests/integration
       - name: Full coverage gate
         if: always()
         run: >-
@@ -56,5 +74,10 @@ jobs:
       - name: CLI smoke tests
         if: always()
         run: |
+          python -m better_router_adaptive.data.download --help
           python -m better_router_adaptive.data.convert --help
           python -m better_router_adaptive.data.pipeline --help
+          python -m better_router_adaptive.prepare --help
+          python -m better_router_adaptive.baselines --help
+          python -m better_router_adaptive.learn --help
+          python -m better_router_adaptive.evaluate --help

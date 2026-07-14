@@ -3,43 +3,33 @@
 [![CI](https://github.com/FitoFritzG/better-router-adaptive-research/actions/workflows/ci.yml/badge.svg)](https://github.com/FitoFritzG/better-router-adaptive-research/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.12%20%7C%203.13-blue)](pyproject.toml)
 [![Licencia MIT](https://img.shields.io/badge/c%C3%B3digo-MIT-green)](LICENSE)
-[![Estado](https://img.shields.io/badge/estado-pipeline%20de%20datos-orange)](#estado-del-proyecto)
+[![Estado](https://img.shields.io/badge/estado-resultados%20reproducidos-success)](#resultados-reproducidos)
 
-**Better Router Adaptive** es una investigación reproducible sobre enrutamiento inteligente de modelos de lenguaje. El objetivo es determinar si una política aprendida puede seleccionar, para cada consulta, el modelo que ofrece el mejor equilibrio entre **calidad, costo, latencia y confiabilidad**.
+Investigación reproducible sobre **enrutamiento adaptativo de modelos de lenguaje**. El estudio evalúa si una política aprendida puede seleccionar, para cada consulta, el modelo que maximiza una utilidad conjunta de calidad, costo, latencia y confiabilidad.
 
-> **Estado científico:** todavía no se presentan conclusiones empíricas sobre XGBoost o LinUCB. Los gráficos visibles en este README utilizan un fixture sintético y están rotulados como demostración, no como resultados del experimento final.
+## Integrantes
 
-## Resumen ejecutivo
+- **Rodolfo Fritz**
+- **Benjamín Cerda**
+- **Felipe Friz**
 
-El estudio compara cuatro estrategias:
+Universidad del Bío-Bío — Ingeniería Civil en Automatización.
 
-| Estrategia | Función en el estudio |
-|---|---|
-| Better Rules Proxy | Línea base determinista inspirada en Better Router |
-| XGBoost | Predictor supervisado de utilidad por modelo |
-| LinUCB | Bandit contextual con exploración y explotación |
-| Oracle offline | Cota superior que conoce la mejor decisión observada |
+## Estado científico
 
-La función objetivo principal es:
+El experimento principal fue ejecutado sobre RouterBench 0-shot con **36.497 prompts**, cuatro brazos de modelo, cinco semillas y bootstrap pareado por `prompt_id`. La reproducción independiente de los artefactos entregados obtuvo coincidencia numérica exacta en `evaluation_summary.csv` y `evaluation_per_seed.csv`.
 
-$$
-U = 0.65Q - 0.20C_n - 0.10L_n - 0.05E
-$$
-
-- \(Q\): calidad normalizada.
-- \(C_n\): costo normalizado.
-- \(L_n\): latencia normalizada.
-- \(E\): indicador de error.
+> **Conclusión principal:** con las características pre-inferencia actuales, XGBoost y LinUCB **no superan de manera estadísticamente significativa** a Better Rules Proxy. El Oracle offline sí obtiene una mejora de utilidad de aproximadamente `+0,068`, lo que demuestra que existe margen para un router por consulta, pero las señales usadas todavía no permiten capturarlo.
 
 ## Pregunta de investigación
 
 > ¿Las políticas de enrutamiento aprendidas logran una utilidad esperada superior a una política ponderada determinista al seleccionar entre modelos heterogéneos?
 
-## Arquitectura investigativa
+## Arquitectura del estudio
 
 ```mermaid
 flowchart LR
-    A[Consulta] --> B[Extracción de características]
+    A[Prompt] --> B[Características pre-inferencia]
     B --> C{Política de enrutamiento}
     C --> D[Better Rules Proxy]
     C --> E[XGBoost]
@@ -50,79 +40,108 @@ flowchart LR
     F --> H
     G --> H
     H --> I[Calidad, costo, latencia y error]
-    I --> J[Métricas, regret e intervalos de confianza]
+    I --> J[Utilidad, regret e IC 95 %]
 ```
 
-## Pipeline de datos — Paso 3
+## Flujo reproducible
 
 ```mermaid
 flowchart TD
-    A[RouterBench fijado por SHA-256] --> B{Formato de entrada}
-    B -->|Pickle verificado| C[Conversión controlada en proceso hijo]
-    B -->|CSV canónico| D[Lectura directa]
-    C --> E[CSV comprimido no ejecutable]
-    D --> E
-    E --> F[Validación de esquema]
-    F --> G[Duplicados exactos]
-    G --> H[Valores inválidos]
-    H --> I[Consistencia por prompt]
-    I --> J[Cuatro brazos completos]
-    J --> K[Dataset canónico limpio]
-    K --> L[Reporte JSON y CSV]
-    K --> M[Manifiesto de esquema]
-    K --> N[Gráficos de perfil]
+    A[RouterBench fijado por SHA-256] --> B[Conversión controlada a CSV]
+    B --> C[Esquema canónico y limpieza]
+    C --> D[Características sin fuga]
+    D --> E[Split 70/15/15 por prompt]
+    E --> F[Utilidad anclada a train]
+    F --> G[Baseline y Oracle]
+    F --> H[XGBoost]
+    F --> I[LinUCB]
+    G --> J[Evaluación de 5 semillas]
+    H --> J
+    I --> J
+    J --> K[Bootstrap pareado de 2.000 remuestras]
+    K --> L[Tablas, gráficos, póster e informe]
 ```
 
-### Contrato canónico
+## Algoritmos comparados
 
-Cada fila representa un resultado para la clave primaria `(prompt_id, model_id)`:
+| Estrategia | Rol |
+|---|---|
+| Better Rules Proxy | Línea base determinista aprendida solo desde `train` |
+| XGBoost | Regresor supervisado de utilidad, uno por brazo |
+| LinUCB | Bandit contextual disjunto con replay prequential |
+| Oracle offline | Cota superior no desplegable |
+| Brazos fijos | Referencias que siempre eligen el mismo modelo |
 
-| Campo | Significado | Regla principal |
-|---|---|---|
-| `prompt_id` | Identificador estable de la consulta | No nulo |
-| `prompt_text` | Texto o representación de la consulta | No vacío |
-| `dataset` | Benchmark de origen | No vacío |
-| `task_group` | `coding`, `mathematics`, `reasoning` o `general` | Categoría controlada |
-| `model_id` | Brazo candidato | Único por prompt |
-| `quality` | Calidad normalizada | Intervalo `[0, 1]` |
-| `input_tokens` | Tokens de entrada | Entero no negativo o nulo |
-| `output_tokens` | Tokens de salida | Entero no negativo o nulo |
-| `cost_usd` | Costo de la inferencia | No negativo o nulo |
-| `latency_ms` | Latencia | No negativa o nula |
-| `success` | Ejecución válida | Booleano |
-| `data_origin` | Procedencia del registro | No vacío |
+La utilidad bloqueada es:
 
-El diccionario completo está en [`docs/DATA_DICTIONARY.md`](docs/DATA_DICTIONARY.md).
+$$
+U = 0.65Q - 0.20C_n - 0.10L_n - 0.05E
+$$
 
-## Perfil visual del fixture de pruebas
+- `Q`: calidad normalizada.
+- `C_n`: costo normalizado con estadísticas calculadas solo en `train`.
+- `L_n`: latencia normalizada.
+- `E`: indicador de error.
 
-Estas figuras comprueban que el pipeline genera documentación automáticamente. **No son evidencia experimental.**
+**Limitación:** RouterBench no aporta latencia para el artefacto utilizado; el término de latencia queda deshabilitado en la ejecución real y no se renormalizan los pesos restantes.
 
-### Distribución de tareas
+## Dataset experimental
 
-![Distribución sintética de tareas](docs/assets/distribucion_tareas.svg)
+Se utilizan cuatro brazos seleccionados de manera exploratoria desde el artefacto RouterBench verificado:
 
-### Relación calidad-costo
+| Brazo | Calidad media | Costo medio USD |
+|---|---:|---:|
+| `mistralai/mistral-7b-chat` | 0,306 | 0,000046 |
+| `mistralai/mixtral-8x7b-chat` | 0,547 | 0,000135 |
+| `zero-one-ai/Yi-34B-Chat` | 0,647 | 0,000186 |
+| `gpt-4-1106-preview` | 0,781 | 0,003293 |
 
-![Relación sintética entre calidad y costo](docs/assets/calidad_costo_modelos.svg)
+El dataset procesado contiene **145.988 filas**, exactamente cuatro resultados por prompt y ninguna clave `(prompt_id, model_id)` duplicada.
 
-### Latencia por brazo
+### Política de datos
 
-![Latencia sintética por modelo](docs/assets/latencia_modelos.svg)
+El dataset alojado por RouterBench no declara una licencia explícita en su tarjeta. Por esta razón:
 
-## Seguridad de la conversión
+- el dataset original y sus tablas fila por fila **no se redistribuyen** en este repositorio público;
+- se publican scripts, configuración, checksums, resultados agregados y figuras;
+- cada reproducción debe descargar el artefacto desde su fuente oficial y revisar sus términos.
 
-El archivo oficial seleccionado por RouterBench es un pickle. Un pickle puede ejecutar código durante su carga, por lo que el proyecto aplica estas barreras:
+## Resultados reproducidos
 
-1. exige el SHA-256 fijado antes de abrir el archivo;
-2. no hereda variables de entorno sensibles;
-3. ejecuta la carga en un proceso hijo sin `shell`;
-4. publica el CSV solamente después de terminar la conversión;
-5. reemplaza el destino de forma atómica;
-6. elimina las respuestas textuales de los modelos del esquema canónico;
-7. documenta explícitamente que el proceso hijo **no constituye un sandbox de seguridad**.
+| Política | Utilidad media | IC 95 % | Diferencia vs. baseline | IC 95 % de la diferencia |
+|---|---:|---:|---:|---:|
+| Oracle | 0,564086 | [0,561654; 0,566461] | +0,068004 | [0,065643; 0,070490] |
+| XGBoost | 0,496082 | [0,492714; 0,499395] | +0,000000 | [-0,000548; 0,000576] |
+| Better Rules Proxy | 0,496082 | [0,492652; 0,499294] | 0 | [0; 0] |
+| GPT-4 fijo | 0,496082 | [0,492652; 0,499294] | 0 | [0; 0] |
+| LinUCB | 0,495940 | [0,492590; 0,499221] | -0,000142 | [-0,000475; 0,000189] |
+| Yi-34B fijo | 0,421682 | [0,417763; 0,425488] | -0,074400 | [-0,078318; -0,070398] |
+| Mixtral fijo | 0,355936 | [0,351823; 0,359983] | -0,140146 | [-0,144500; -0,135763] |
+| Mistral fijo | 0,197879 | [0,194216; 0,201709] | -0,298203 | [-0,303143; -0,293205] |
 
-La conversión real debe ejecutarse en una máquina o contenedor desechable sin credenciales ni acceso a producción.
+Resultados agregados versionados: [`artifacts/public/step7-real/`](artifacts/public/step7-real/).
+
+### Comparación de políticas
+
+![Comparación de políticas](artifacts/public/step7-real/figures/comparacion_politicas.svg)
+
+### Frontera calidad-costo
+
+![Frontera calidad-costo](artifacts/public/step7-real/figures/frontera_calidad_costo.svg)
+
+### Regret de LinUCB
+
+![Regret acumulado de LinUCB](artifacts/public/step7-real/figures/regret_linucb.svg)
+
+## Interpretación
+
+1. Better Rules Proxy converge a seleccionar GPT-4 para todas las categorías bajo la función de utilidad usada.
+2. XGBoost reproduce prácticamente esa misma decisión; su intervalo de diferencia cruza cero.
+3. LinUCB obtiene una utilidad ligeramente menor, pero la diferencia tampoco es concluyente.
+4. El Oracle mejora simultáneamente la utilidad y la relación calidad-costo, por lo que el problema de routing no es inútil: faltan señales contextuales más informativas.
+5. La selección de brazos se realizó después de inspeccionar promedios globales de calidad y costo. Por ello, el estudio debe interpretarse como **exploratorio**, no como una evaluación confirmatoria preregistrada.
+
+Análisis completo: [`docs/RESULTS.md`](docs/RESULTS.md).
 
 ## Instalación
 
@@ -146,112 +165,60 @@ python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ```
 
-## Reproducir el Paso 3 con datos sintéticos
+El proyecto fija `xgboost==3.3.0` porque esa versión reproduce los artefactos numéricos publicados.
+
+## Reproducir la evaluación final
 
 ```bash
-python -m better_router_adaptive.data.pipeline \
-  --input tests/fixtures/routerbench_sample.csv \
-  --output-directory artifacts/runs/step3-demo \
-  --model-arm arm-fast \
-  --model-arm arm-balanced \
-  --model-arm arm-reasoning \
-  --model-arm arm-premium \
-  --evidence-label "DEMO SINTÉTICA — NO ES RESULTADO EXPERIMENTAL"
+python -m better_router_adaptive.evaluate \
+  --input data/processed/step3-real/routerbench_canonical_clean.csv.gz \
+  --output-directory artifacts/runs/step7-real \
+  --bootstrap-samples 2000 \
+  --evidence-label "RouterBench 0-shot — datos reales"
 ```
 
-Resultados esperados:
+Cada semilla se evalúa en un proceso independiente. Esto evita la acumulación de estado nativo de XGBoost/OpenMP durante los cinco entrenamientos completos.
 
-```text
-routerbench_canonical_clean.csv.gz
-data_quality_report.json
-data_quality_report.csv
-schema_manifest.json
-figures/distribucion_tareas.svg
-figures/calidad_costo_modelos.svg
-figures/latencia_modelos.svg
-figures/resumen_perfil.json
-```
-
-## Convertir el artefacto oficial verificado
-
-Primero se descarga mediante el módulo del Paso 2. Después:
+## Verificación
 
 ```bash
-python -m better_router_adaptive.data.convert \
-  --input data/raw/routerbench_0shot.pkl \
-  --output data/interim/routerbench_0shot_canonical.csv.gz \
-  --expected-sha256 ba4f77f19517610a707c374e99322d7750c30fc4ae7ff5527888595a1e65d36d
-```
-
-El archivo resultante es CSV comprimido y no contiene las respuestas textuales de los LLM.
-
-## Pruebas y controles
-
-```bash
-pytest -v --cov=better_router_adaptive --cov-branch --cov-report=term-missing
+python -m pytest -q \
+  --cov=better_router_adaptive \
+  --cov-branch \
+  --cov-report=term-missing \
+  --cov-fail-under=85
 ruff check .
+ruff format --check .
 mypy src tests
-python -m better_router_adaptive.data.convert --help
-python -m better_router_adaptive.data.pipeline --help
+python -m build
 ```
 
-La CI ejecuta estas verificaciones en Python 3.12 y 3.13.
+La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke tests en Python 3.12 y 3.13.
+
+## Documentación
+
+- [Metodología](docs/METHODOLOGY.md)
+- [Diccionario de datos](docs/DATA_DICTIONARY.md)
+- [Características y particiones](docs/STEP_4_FEATURES_SPLITS.md)
+- [Utilidad y baselines](docs/STEP_5_UTILITY_BASELINES.md)
+- [Routers aprendidos](docs/STEP_6_LEARNED_ROUTERS.md)
+- [Evaluación final](docs/STEP_7_EVALUATION.md)
+- [Resultados y limitaciones](docs/RESULTS.md)
+- [Revisión del aporte del equipo](docs/reviews/TEAMMATE_DELIVERY_REVIEW.md)
+- [Póster científico](paper/poster/poster_better_router.pdf)
 
 ## Estado del proyecto
 
-- [x] Alcance científico e informe IEEE v0.1.
-- [x] Configuración reproducible.
-- [x] Procedencia, licencia, descarga y checksum de RouterBench.
-- [x] Esquema canónico, conversión, limpieza, reportes y gráficos.
-- [ ] Características sin fuga de información y partición por `prompt_id`.
-- [ ] Función de utilidad, baseline y Oracle.
-- [ ] Router XGBoost.
-- [ ] Router LinUCB.
-- [ ] Evaluación comparativa e intervalos de confianza.
-- [ ] Informe IEEE y póster finales con resultados generados.
+- [x] Procedencia y adquisición verificable de RouterBench.
+- [x] Conversión, esquema canónico y limpieza.
+- [x] Características sin fuga y split por `prompt_id`.
+- [x] Función de utilidad, baseline y Oracle.
+- [x] XGBoost y LinUCB.
+- [x] Evaluación multi-semilla y bootstrap pareado.
+- [x] Resultados reproducidos independientemente.
+- [x] README, documentación y póster con los tres integrantes.
+- [ ] Informe IEEE final actualizado con resultados y conclusiones definitivas.
 
-## Estructura
+## Licencias y privacidad
 
-```text
-better-router-adaptive-research/
-├── config/                     # Configuración bloqueada del experimento
-├── data/                       # Datos locales ignorados por Git
-├── artifacts/examples/        # Evidencia sintética versionada
-├── docs/                       # Metodología, diccionario y revisiones
-├── paper/                      # Informe IEEE y bibliografía
-├── src/better_router_adaptive/
-│   ├── config.py
-│   └── data/
-│       ├── download.py
-│       ├── convert.py
-│       ├── pickle_worker.py
-│       ├── schema.py
-│       ├── clean.py
-│       ├── pipeline.py
-│       └── profile.py
-└── tests/                      # Unitarias, integración y fixtures sintéticos
-```
-
-## Reproducibilidad y privacidad
-
-- Las semillas son `42`, `123`, `2026`, `31415` y `271828`.
-- Las divisiones futuras se harán por `prompt_id`, nunca por filas.
-- No se almacenan prompts de producción, API keys, usuarios u organizaciones.
-- El dataset oficial no se redistribuye desde este repositorio.
-- Los resultados del informe se generarán desde artefactos, no se escribirán manualmente.
-- Cada ejecución final incluirá configuración, entorno, hashes y commit.
-
-## Relación con Better Router
-
-Este estudio está motivado por el subsistema de enrutamiento de Better Router, pero permanece aislado del producto en producción. Una integración futura requerirá evaluación en modo sombra, controles de privacidad y una revisión independiente de despliegue.
-
-## Referencias y citación
-
-- RouterBench: arXiv `2403.12031`.
-- DOI del dataset: `10.57967/hf/1996`.
-- Referencias completas: [`paper/references.bib`](paper/references.bib).
-- Metadatos de citación del proyecto: [`CITATION.cff`](CITATION.cff).
-
-## Licencia
-
-El código propio se publica bajo MIT. Los datasets y benchmarks de terceros mantienen sus términos originales; consulte [`LICENSES.md`](LICENSES.md).
+El código propio se publica bajo MIT. Los datasets y benchmarks de terceros conservan sus términos. No se almacenan prompts de producción, API keys, usuarios ni información privada de Better Router. Consulte [`LICENSES.md`](LICENSES.md).
