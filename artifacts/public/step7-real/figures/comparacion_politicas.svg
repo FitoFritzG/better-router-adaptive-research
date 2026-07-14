@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" role="img" aria-labelledby="title desc">
+<title id="title">Comparación de utilidad por política</title>
+<desc id="desc">Utilidad media e intervalos de confianza del experimento reproducido.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="450.0" y="30" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" font-weight="bold" fill="#111">Utilidad media por política — RouterBench 0-shot</text>
+<text x="178" y="88.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#111">Oracle</text>
+<rect x="190" y="68.0" width="620.49" height="28" rx="4" fill="#2563eb" opacity="0.88"/>
+<line x1="807.82" y1="82.0" x2="813.11" y2="82.0" stroke="#111" stroke-width="2"/>
+<line x1="807.82" y1="77.0" x2="807.82" y2="87.0" stroke="#111"/>
+<line x1="813.11" y1="77.0" x2="813.11" y2="87.0" stroke="#111"/>
+<text x="818.4944421874933" y="88.0" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#111">0.564086</text>
+<text x="178" y="140.14285714285714" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#111">XGBoost</text>
+<rect x="190" y="120.14285714285714" width="545.69" height="28" rx="4" fill="#2563eb" opacity="0.88"/>
+<line x1="731.99" y1="134.14285714285714" x2="739.33" y2="134.14285714285714" stroke="#111" stroke-width="2"/>
+<line x1="731.99" y1="129.14285714285714" x2="731.99" y2="139.14285714285714" stroke="#111"/>
+<line x1="739.33" y1="129.14285714285714" x2="739.33" y2="139.14285714285714" stroke="#111"/>
+<text x="743.6903179368131" y="140.14285714285714" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#111">0.496082</text>
+<text x="178" y="192.28571428571428" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#111">Better Rules</text>
+<rect x="190" y="172.28571428571428" width="545.69" height="28" rx="4" fill="#2563eb" opacity="0.88"/>
+<line x1="731.92" y1="186.28571428571428" x2="739.22" y2="186.28571428571428" stroke="#111" stroke-width="2"/>
+<line x1="731.92" y1="181.28571428571428" x2="731.92" y2="191.28571428571428" stroke="#111"/>
+<line x1="739.22" y1="181.28571428571428" x2="739.22" y2="191.28571428571428" stroke="#111"/>
+<text x="743.6901854992512" y="192.28571428571428" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#111">0.496082</text>
+<text x="178" y="244.42857142857144" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#111">LinUCB</text>
+<rect x="190" y="224.42857142857144" width="545.53" height="28" rx="4" fill="#2563eb" opacity="0.88"/>
+<line x1="731.85" y1="238.42857142857144" x2="739.14" y2="238.42857142857144" stroke="#111" stroke-width="2"/>
+<line x1="731.85" y1="233.42857142857144" x2="731.85" y2="243.42857142857144" stroke="#111"/>
+<line x1="739.14" y1="233.42857142857144" x2="739.14" y2="243.42857142857144" stroke="#111"/>
+<text x="743.5336718994793" y="244.42857142857144" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#111">0.495940</text>
+<text x="178" y="296.57142857142856" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#111">Yi-34B</text>
+<rect x="190" y="276.57142857142856" width="463.85" height="28" rx="4" fill="#2563eb" opacity="0.88"/>
+<line x1="649.54" y1="290.57142857142856" x2="658.04" y2="290.57142857142856" stroke="#111" stroke-width="2"/>
+<line x1="649.54" y1="285.57142857142856" x2="649.54" y2="295.57142857142856" stroke="#111"/>
+<line x1="658.04" y1="285.57142857142856" x2="658.04" y2="295.57142857142856" stroke="#111"/>
+<text x="661.8501344491654" y="296.57142857142856" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#111">0.421682</text>
+<text x="178" y="348.7142857142857" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#111">Mixtral</text>
+<rect x="190" y="328.7142857142857" width="391.53" height="28" rx="4" fill="#2563eb" opacity="0.88"/>
+<line x1="577.00" y1="342.7142857142857" x2="585.98" y2="342.7142857142857" stroke="#111" stroke-width="2"/>
+<line x1="577.00" y1="337.7142857142857" x2="577.00" y2="347.7142857142857" stroke="#111"/>
+<line x1="585.98" y1="337.7142857142857" x2="585.98" y2="347.7142857142857" stroke="#111"/>
+<text x="589.529458762315" y="348.7142857142857" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#111">0.355936</text>
+<text x="178" y="400.8571428571429" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#111">Mistral</text>
+<rect x="190" y="380.8571428571429" width="217.67" height="28" rx="4" fill="#2563eb" opacity="0.88"/>
+<line x1="403.64" y1="394.8571428571429" x2="411.88" y2="394.8571428571429" stroke="#111" stroke-width="2"/>
+<line x1="403.64" y1="389.8571428571429" x2="403.64" y2="399.8571428571429" stroke="#111"/>
+<line x1="411.88" y1="389.8571428571429" x2="411.88" y2="399.8571428571429" stroke="#111"/>
+<text x="415.6671533532821" y="400.8571428571429" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#111">0.197879</text>
+<line x1="190.00" y1="55" x2="190.00" y2="425" stroke="#ddd" stroke-width="1"/>
+<text x="190.0" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#111">0.0</text>
+<line x1="300.00" y1="55" x2="300.00" y2="425" stroke="#ddd" stroke-width="1"/>
+<text x="300.0" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#111">0.1</text>
+<line x1="410.00" y1="55" x2="410.00" y2="425" stroke="#ddd" stroke-width="1"/>
+<text x="410.0" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#111">0.2</text>
+<line x1="520.00" y1="55" x2="520.00" y2="425" stroke="#ddd" stroke-width="1"/>
+<text x="520.0" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#111">0.3</text>
+<line x1="630.00" y1="55" x2="630.00" y2="425" stroke="#ddd" stroke-width="1"/>
+<text x="630.0" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#111">0.4</text>
+<line x1="740.00" y1="55" x2="740.00" y2="425" stroke="#ddd" stroke-width="1"/>
+<text x="740.0" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#111">0.5</text>
+<line x1="850.00" y1="55" x2="850.00" y2="425" stroke="#ddd" stroke-width="1"/>
+<text x="850.0" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#111">0.6</text>
+<text x="520.0" y="475" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#111">Utilidad media U</text>
+<text x="882" y="472" font-family="Arial, sans-serif" font-size="10" text-anchor="end" font-weight="normal" fill="#111">IC 95 % pareado; n = 20.263 prompts agregados</text>
+</svg>

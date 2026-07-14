@@ -1,13 +1,18 @@
+# Selección exploratoria realizada tras inspeccionar el artefacto RouterBench
+# verificado (revisión a4dcf98, 11 modelos disponibles). Se eligieron cuatro
+# niveles de costo con calidad creciente y se excluyeron modelos dominados.
+# Esta inspección global se declara como amenaza a la validez; el estudio no se
+# presenta como evaluación confirmatoria preregistrada. Ver docs/RESULTS.md.
 models:
-  - id: arm-fast
+  - id: mistralai/mistral-7b-chat
     provider: benchmark
-    display_name: Fast model arm
-  - id: arm-balanced
+    display_name: Fast arm (Mistral 7B)
+  - id: mistralai/mixtral-8x7b-chat
     provider: benchmark
-    display_name: Balanced model arm
-  - id: arm-reasoning
+    display_name: Balanced arm (Mixtral 8x7B)
+  - id: zero-one-ai/Yi-34B-Chat
     provider: benchmark
-    display_name: Reasoning model arm
-  - id: arm-premium
+    display_name: Reasoning arm (Yi 34B)
+  - id: gpt-4-1106-preview
     provider: benchmark
-    display_name: Premium model arm
+    display_name: Premium arm (GPT-4 Turbo)

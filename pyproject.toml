@@ -4,13 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "better-router-adaptive"
-version = "0.1.0"
+version = "0.2.0"
 description = "Reproducible research on quality-cost-latency-aware multi-LLM routing."
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 license = { text = "MIT" }
 authors = [
-  { name = "Rodolfo Eduardo Fritz Gutiérrez" }
+  { name = "Rodolfo Fritz" },
+  { name = "Benjamín Cerda" },
+  { name = "Felipe Friz" },
 ]
 keywords = ["llm-routing", "contextual-bandit", "xgboost", "research", "better-router"]
 classifiers = [
@@ -27,9 +29,10 @@ dependencies = [
   "PyYAML>=6.0,<7",
   "scikit-learn>=1.5,<2",
   "scipy>=1.14,<2",
-  "xgboost>=2.1,<4",
+  "xgboost==3.3.0",
   "matplotlib>=3.9,<4",
   "joblib>=1.4,<2",
+  "threadpoolctl>=3.5,<4",
 ]
 
 [project.optional-dependencies]
@@ -47,6 +50,25 @@ dev = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/better_router_adaptive"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/config",
+  "/docs",
+  "/paper",
+  "/artifacts/examples",
+  "/artifacts/public",
+  "/README.md",
+  "/AUTHORS.md",
+  "/CITATION.cff",
+  "/LICENSE",
+  "/LICENSES.md",
+  "/Makefile",
+  "/requirements.txt",
+  "/ENTREGA.md",
+]
 
 [tool.pytest.ini_options]
 addopts = "--strict-markers --strict-config"

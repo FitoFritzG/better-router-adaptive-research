@@ -1,6 +1,8 @@
+# Configuración sintética para pruebas; espejo de config/experiment.yaml con
+# brazos ficticios. No es la configuración del experimento real.
 project:
   name: better-router-adaptive
-  version: 0.2.0
+  version: 0.1.0
 
 experiment:
   task_groups:
@@ -9,10 +11,10 @@ experiment:
     - reasoning
     - general
   model_arms:
-    - mistralai/mistral-7b-chat
-    - mistralai/mixtral-8x7b-chat
-    - zero-one-ai/Yi-34B-Chat
-    - gpt-4-1106-preview
+    - arm-fast
+    - arm-balanced
+    - arm-reasoning
+    - arm-premium
   seeds:
     - 42
     - 123

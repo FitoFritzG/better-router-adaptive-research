@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" role="img" aria-labelledby="title desc">
+<title id="title">Regret acumulado de LinUCB</title>
+<desc id="desc">Curva promedio de regret acumulado de LinUCB en cinco semillas.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="450.0" y="30" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" font-weight="bold" fill="#111">Regret acumulado de LinUCB</text>
+<line x1="85.00" y1="60" x2="85.00" y2="410" stroke="#e5e7eb"/>
+<text x="85.0" y="442" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#111">0</text>
+<line x1="240.00" y1="60" x2="240.00" y2="410" stroke="#e5e7eb"/>
+<text x="240.0" y="442" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#111">5.109</text>
+<line x1="395.00" y1="60" x2="395.00" y2="410" stroke="#e5e7eb"/>
+<text x="395.0" y="442" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#111">10.218</text>
+<line x1="550.00" y1="60" x2="550.00" y2="410" stroke="#e5e7eb"/>
+<text x="550.0" y="442" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#111">15.328</text>
+<line x1="705.00" y1="60" x2="705.00" y2="410" stroke="#e5e7eb"/>
+<text x="705.0" y="442" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#111">20.437</text>
+<line x1="860.00" y1="60" x2="860.00" y2="410" stroke="#e5e7eb"/>
+<text x="860.0" y="442" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#111">25.547</text>
+<line x1="85" y1="410.00" x2="860" y2="410.00" stroke="#e5e7eb"/>
+<text x="75" y="414.0" font-family="Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#111">0.0</text>
+<line x1="85" y1="340.00" x2="860" y2="340.00" stroke="#e5e7eb"/>
+<text x="75" y="344.0" font-family="Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#111">379.3</text>
+<line x1="85" y1="270.00" x2="860" y2="270.00" stroke="#e5e7eb"/>
+<text x="75" y="274.0" font-family="Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#111">758.6</text>
+<line x1="85" y1="200.00" x2="860" y2="200.00" stroke="#e5e7eb"/>
+<text x="75" y="204.0" font-family="Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#111">1137.8</text>
+<line x1="85" y1="130.00" x2="860" y2="130.00" stroke="#e5e7eb"/>
+<text x="75" y="134.0" font-family="Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#111">1517.1</text>
+<line x1="85" y1="60.00" x2="860" y2="60.00" stroke="#e5e7eb"/>
+<text x="75" y="64.0" font-family="Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#111">1896.4</text>
+<polyline points="85.00,410.00 100.81,400.55 116.64,392.17 132.45,384.91 148.25,378.21 164.09,371.48 179.90,364.53 195.70,358.08 211.54,351.39 227.34,344.30 243.15,337.52 258.99,330.82 274.79,324.64 290.63,317.85 306.43,311.33 322.24,303.90 338.07,297.15 353.88,289.94 369.69,282.79 385.52,276.28 401.33,269.49 417.13,262.74 432.97,255.92 448.78,249.78 464.58,242.87 480.42,235.69 496.22,228.88 512.03,222.23 527.87,215.22 543.67,208.58 559.48,201.98 575.31,195.26 591.12,188.78 606.93,181.84 622.76,175.23 638.57,169.05 654.37,162.51 670.21,156.00 686.01,149.73 701.85,142.94 717.66,136.49 733.46,129.63 749.30,122.44 765.10,115.87 780.91,108.64 796.75,102.24 812.55,95.50 828.36,89.46 844.19,83.30 860.00,76.67" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round"/>
+<text x="472.5" y="472" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#111">Paso prequential</text>
+<text x="20" y="235.0" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" transform="rotate(-90 20 235.0)">Regret acumulado</text>
+<text x="882" y="472" font-family="Arial, sans-serif" font-size="10" text-anchor="end" font-weight="normal" fill="#111">Promedio de cinco semillas; 50 puntos muestreados</text>
+</svg>
