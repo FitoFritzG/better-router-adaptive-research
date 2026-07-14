@@ -205,7 +205,7 @@ La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke 
 - [Evaluación final](docs/STEP_7_EVALUATION.md)
 - [Resultados y limitaciones](docs/RESULTS.md)
 - [Revisión del aporte del equipo](docs/reviews/TEAMMATE_DELIVERY_REVIEW.md)
-- [Póster científico](paper/poster/poster_better_router.pdf)
+- [Generador reproducible del póster](paper/poster/build_poster.py)
 
 ## Estado del proyecto
 
@@ -216,7 +216,7 @@ La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke 
 - [x] XGBoost y LinUCB.
 - [x] Evaluación multi-semilla y bootstrap pareado.
 - [x] Resultados reproducidos independientemente.
-- [x] README, documentación y póster con los tres integrantes.
+- [x] README, documentación y generador del póster con los tres integrantes.
 - [ ] Informe IEEE final actualizado con resultados y conclusiones definitivas.
 
 ## Licencias y privacidad
