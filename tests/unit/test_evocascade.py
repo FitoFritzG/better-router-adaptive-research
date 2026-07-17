@@ -12,7 +12,11 @@ from better_router_adaptive.cascade import (
     compute_action_outcomes,
 )
 from better_router_adaptive.config import RewardWeights
-from better_router_adaptive.evocascade import EVOCASCADE_POLICY, EvoCascadeRouter, SepCMAES
+from better_router_adaptive.evocascade import (
+    EVOCASCADE_POLICY,
+    EvoCascadeRouter,
+    SepCMAES,
+)
 from better_router_adaptive.routers import RouterError
 from better_router_adaptive.utility import ColumnNormalization, NormalizationStats
 
@@ -22,7 +26,9 @@ WEIGHTS = RewardWeights(quality=0.65, cost=0.20, latency=0.10, error=0.05)
 def _stats(cost: np.ndarray, latency: np.ndarray) -> NormalizationStats:
     return NormalizationStats(
         cost_usd=ColumnNormalization(True, float(cost.min()), float(cost.max())),
-        latency_ms=ColumnNormalization(True, float(latency.min()), float(latency.max())),
+        latency_ms=ColumnNormalization(
+            True, float(latency.min()), float(latency.max())
+        ),
     )
 
 
@@ -131,7 +137,10 @@ def test_sep_cmaes_converges_on_a_quadratic_problem() -> None:
 def test_evocascade_learns_the_dominant_ideal_cascade() -> None:
     contexts, space, outcomes = _scenario()
     cascade_index = space.labels.index("cheap>strong")
-    assert outcomes.utility[:, cascade_index].mean() > outcomes.utility[:, :2].mean(axis=0).max()
+    assert (
+        outcomes.utility[:, cascade_index].mean()
+        > outcomes.utility[:, :2].mean(axis=0).max()
+    )
     router = EvoCascadeRouter(space, sigma=1.0, iterations=120, seed=11)
     router.fit(contexts, outcomes)
     actions = router.route(contexts)
