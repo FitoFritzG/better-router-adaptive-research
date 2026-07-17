@@ -124,38 +124,12 @@ jobs:
       - name: Public result loading tests
         run: python -m pytest -q tests/app/test_data_access.py --tb=short
       - name: Synthetic simulator tests
-        if: always()
         run: python -m pytest -q tests/app/test_simulator.py --tb=short
       - name: Streamlit smoke test
-        if: always()
         run: python -m pytest -q tests/app/test_streamlit_app.py --tb=short
-      - name: Capture static diagnostics
-        if: always()
-        shell: bash
-        run: |
-          mkdir -p bonus-diagnostics
-          set +e
-          ruff check app tests/app > bonus-diagnostics/ruff-check.txt 2>&1
-          echo "$?" > bonus-diagnostics/ruff-check.status
-          ruff format --diff app tests/app > bonus-diagnostics/ruff-format.txt 2>&1
-          echo "$?" > bonus-diagnostics/ruff-format.status
-          mypy app tests/app > bonus-diagnostics/mypy.txt 2>&1
-          echo "$?" > bonus-diagnostics/mypy.status
-          set -e
-      - name: Upload static diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bonus-static-diagnostics
-          path: bonus-diagnostics/
-          if-no-files-found: error
-      - name: Enforce static diagnostics
-        if: always()
-        shell: bash
-        run: |
-          cat bonus-diagnostics/ruff-check.txt
-          cat bonus-diagnostics/ruff-format.txt
-          cat bonus-diagnostics/mypy.txt
-          test "$(cat bonus-diagnostics/ruff-check.status)" = "0"
-          test "$(cat bonus-diagnostics/ruff-format.status)" = "0"
-          test "$(cat bonus-diagnostics/mypy.status)" = "0"
+      - name: Streamlit bonus lint
+        run: ruff check app tests/app
+      - name: Streamlit bonus format
+        run: ruff format --check app tests/app
+      - name: Streamlit bonus typing
+        run: mypy app tests/app
