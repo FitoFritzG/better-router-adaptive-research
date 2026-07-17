@@ -47,6 +47,12 @@ FORBIDDEN_TRACKED_NAMES = {
     "credentials.json",
 }
 
+ALLOWED_EMPTY_DIRECTORY_MARKERS = {
+    "data/raw/.gitkeep",
+    "data/interim/.gitkeep",
+    "data/processed/.gitkeep",
+}
+
 
 def tracked_files() -> tuple[str, ...]:
     """Return Git-tracked paths, failing closed when Git cannot be queried."""
@@ -75,6 +81,8 @@ def verify_tracked_files(paths: tuple[str, ...]) -> list[str]:
     violations: list[str] = []
     for path in paths:
         normalized = path.replace("\\", "/")
+        if normalized in ALLOWED_EMPTY_DIRECTORY_MARKERS:
+            continue
         if normalized in FORBIDDEN_TRACKED_NAMES:
             violations.append(path)
             continue
