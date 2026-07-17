@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "better-router-adaptive"
-version = "0.2.0"
+version = "0.3.0"
 description = "Reproducible research on quality-cost-latency-aware multi-LLM routing."
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
@@ -14,7 +14,7 @@ authors = [
   { name = "Benjamín Cerda" },
   { name = "Felipe Friz" },
 ]
-keywords = ["llm-routing", "contextual-bandit", "xgboost", "research", "better-router"]
+keywords = ["llm-routing", "contextual-bandit", "xgboost", "cascades", "cma-es", "research", "better-router"]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Intended Audience :: Science/Research",
@@ -61,6 +61,7 @@ include = [
   "/artifacts/examples",
   "/artifacts/public",
   "/README.md",
+  "/LATEST_STUDY.md",
   "/AUTHORS.md",
   "/CITATION.cff",
   "/LICENSE",
