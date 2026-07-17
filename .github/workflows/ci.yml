@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, synchronize, reopened, closed]
 
 permissions:
   contents: read
@@ -16,6 +17,7 @@ env:
 
 jobs:
   quality:
+    if: github.event_name == 'push' || github.event.action != 'closed'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -110,7 +112,11 @@ jobs:
           python -m better_router_adaptive.evaluate --help
 
   cleanup-branches:
-    if: github.event_name == 'push' && github.event.head_commit.message == 'chore: delete stale remote branches'
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.title == 'chore: trigger one-time branch cleanup'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -120,18 +126,23 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           python - <<'PY'
-          import json
           import os
           import subprocess
           import urllib.parse
 
           repository = os.environ["GITHUB_REPOSITORY"]
-          response = subprocess.check_output(
-              ["gh", "api", "--paginate", f"repos/{repository}/branches?per_page=100"],
+          output = subprocess.check_output(
+              [
+                  "gh",
+                  "api",
+                  "--paginate",
+                  f"repos/{repository}/branches?per_page=100",
+                  "--jq",
+                  ".[].name",
+              ],
               text=True,
           )
-          branches = [item["name"] for item in json.loads(response)]
-          deleted = []
+          branches = [line.strip() for line in output.splitlines() if line.strip()]
 
           for branch in branches:
               if branch == "main":
@@ -147,9 +158,5 @@ jobs:
                   ],
                   check=True,
               )
-              deleted.append(branch)
-
-          print("Deleted branches:")
-          for branch in deleted:
-              print(f"- {branch}")
+              print(f"Deleted: {branch}")
           PY
