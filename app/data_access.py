@@ -54,7 +54,9 @@ def _read_required_csv(path: Path, required_columns: tuple[str, ...]) -> pd.Data
 
     missing = [column for column in required_columns if column not in frame.columns]
     if missing:
-        raise PublicResultsError(f"result file {path.name} is missing columns: {', '.join(missing)}")
+        raise PublicResultsError(
+            f"result file {path.name} is missing columns: {', '.join(missing)}"
+        )
     if frame.empty:
         raise PublicResultsError(f"result file {path.name} contains no rows")
     return frame.loc[:, list(required_columns)].copy()
