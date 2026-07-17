@@ -54,9 +54,7 @@ def _read_required_csv(path: Path, required_columns: tuple[str, ...]) -> pd.Data
 
     missing = [column for column in required_columns if column not in frame.columns]
     if missing:
-        raise PublicResultsError(
-            f"result file {path.name} is missing columns: {', '.join(missing)}"
-        )
+        raise PublicResultsError(f"result file {path.name} is missing columns: {', '.join(missing)}")
     if frame.empty:
         raise PublicResultsError(f"result file {path.name} contains no rows")
     return frame.loc[:, list(required_columns)].copy()
@@ -70,7 +68,5 @@ def load_public_results(root: Path) -> PublicResults:
     per_seed = _read_required_csv(base / "evaluation_per_seed.csv", PER_SEED_COLUMNS)
     return PublicResults(
         summary=summary.sort_values("policy", kind="mergesort").reset_index(drop=True),
-        per_seed=per_seed.sort_values(["seed", "policy"], kind="mergesort").reset_index(
-            drop=True
-        ),
+        per_seed=per_seed.sort_values(["seed", "policy"], kind="mergesort").reset_index(drop=True),
     )
