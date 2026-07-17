@@ -1,4 +1,4 @@
-# Entrega académica final — Better Router Adaptive
+# Entrega académica — Better Router Adaptive
 
 ## Integrantes
 
@@ -8,9 +8,9 @@
 
 ## Estado
 
-**ENTREGA_FINAL_LISTA_PARA_EVALUACIÓN**
+**CÓDIGO_LISTO_PARA_EVALUACIÓN**
 
-El repositorio contiene el póster científico, código fuente, configuraciones, pruebas, documentación metodológica, resultados agregados y archivos necesarios para ejecutar y evaluar la solución.
+Este repositorio público contiene el código fuente, configuraciones, pruebas, documentación metodológica, resultados agregados e instrucciones necesarias para evaluar la solución. El póster científico en PDF se entrega por separado y no se genera desde GitHub.
 
 ## Alcance obligatorio
 
@@ -19,21 +19,21 @@ La solución principal implementa y compara dos algoritmos de inteligencia artif
 1. **XGBoost**: regresión supervisada de utilidad para seleccionar un modelo por consulta.
 2. **LinUCB**: bandit contextual para selección secuencial de modelos.
 
-Better Rules Proxy, brazos fijos y Oracle offline se utilizan como referencias experimentales. `EvoCascade-Ideal` se conserva como iniciativa adicional y se presenta explícitamente como una cota experimental dependiente de un verificador perfecto simulado.
+Se utilizan Better Rules Proxy, brazos fijos y Oracle offline como referencias experimentales.
+
+La evaluación obligatoria no depende de EvoCascade ni de una interfaz gráfica. Cualquier trabajo de bonus posterior se desarrollará en una rama nueva, después de cerrar esta versión.
 
 ## Archivos principales
 
-- Póster científico PDF: `paper/poster/poster_better_router.pdf`.
-- Paquete final: `delivery/Better_Router_Adaptive_Entrega_Final.zip`.
-- Checksums: `delivery/SHA256SUMS.txt`.
 - Guía para el profesor: `EVALUACION_PROFESOR.md`.
 - Código fuente: `src/better_router_adaptive/`.
 - Configuraciones: `config/`.
 - Pruebas unitarias y de integración: `tests/`.
-- Resultados agregados: `artifacts/public/step7-real/` y `artifacts/public/evocascade-ideal-verifier/`.
+- Resultados agregados: `artifacts/public/step7-real/`.
 - Metodología, análisis y reproducibilidad: `docs/`.
 - Dependencias: `pyproject.toml` y `requirements.txt`.
 - Verificador de estructura: `scripts/verify_professor_submission.py`.
+- Póster científico: archivo PDF entregado por separado.
 
 ## Comando recomendado de evaluación
 
@@ -59,7 +59,7 @@ python scripts/verify_professor_submission.py
 
 XGBoost y LinUCB no superan significativamente a Better Rules Proxy con las características pre-inferencia utilizadas. El Oracle offline mejora la utilidad en aproximadamente `+0,068`, demostrando que existe margen para un router por consulta, aunque las señales actuales todavía no permiten capturarlo.
 
-EvoCascade-Ideal obtiene una mejora offline bajo un verificador perfecto simulado. Este resultado se documenta como bonus exploratorio y no como desempeño directamente desplegable.
+Este resultado es válido porque cuantifica la diferencia entre políticas aprendidas, una línea base determinista y la mejor selección offline disponible en el benchmark.
 
 ## Cumplimiento de la pauta
 
@@ -69,17 +69,16 @@ EvoCascade-Ideal obtiene una mejora offline bajo un verificador perfecto simulad
 | Dos algoritmos de IA | XGBoost y LinUCB |
 | Dos o más métricas | Utilidad, calidad, costo, error, regret e IC 95 % |
 | Comparación experimental | Baseline, XGBoost, LinUCB, brazos fijos y Oracle |
-| Análisis de resultados | `docs/RESULTS.md` y `LATEST_STUDY.md` |
+| Análisis de resultados | `docs/RESULTS.md` |
 | Decisiones metodológicas justificadas | `docs/METHODOLOGY.md` y documentos por etapa |
 | Programación modular | Paquete `src/better_router_adaptive/` |
 | Código ejecutable | CI, pruebas, build y smoke tests |
-| Póster PDF | `paper/poster/poster_better_router.pdf` |
-| Bonus | Hiperparámetros, evaluación multi-semilla y EvoCascade-Ideal |
+| Póster PDF | Entregado por separado |
 
 ## Restricción de datos
 
 El dataset original y los datos procesados fila por fila no se distribuyen públicamente porque la tarjeta de RouterBench no declara una licencia explícita de redistribución. El repositorio conserva scripts, procedencia, checksums, configuraciones y resultados agregados para permitir su regeneración desde la fuente oficial.
 
-## Cierre
+## Bonus
 
-GitHub Actions genera el PDF y el ZIP final, verifica su integridad mediante SHA-256 y elimina las ramas remotas distintas de `main`. El paquete excluye entornos virtuales, cachés, secretos, pickles y datasets sin permiso de redistribución.
+El bonus queda fuera de este cierre. Se desarrollará posteriormente en una rama separada para no alterar la versión que evaluará el profesor.
