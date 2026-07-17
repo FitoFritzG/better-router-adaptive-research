@@ -108,3 +108,48 @@ jobs:
           python -m better_router_adaptive.baselines --help
           python -m better_router_adaptive.learn --help
           python -m better_router_adaptive.evaluate --help
+
+  cleanup-branches:
+    if: github.event_name == 'push' && github.event.head_commit.message == 'chore: delete stale remote branches'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Delete every remote branch except main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          import urllib.parse
+
+          repository = os.environ["GITHUB_REPOSITORY"]
+          response = subprocess.check_output(
+              ["gh", "api", "--paginate", f"repos/{repository}/branches?per_page=100"],
+              text=True,
+          )
+          branches = [item["name"] for item in json.loads(response)]
+          deleted = []
+
+          for branch in branches:
+              if branch == "main":
+                  continue
+              encoded = urllib.parse.quote(branch, safe="")
+              subprocess.run(
+                  [
+                      "gh",
+                      "api",
+                      "--method",
+                      "DELETE",
+                      f"repos/{repository}/git/refs/heads/{encoded}",
+                  ],
+                  check=True,
+              )
+              deleted.append(branch)
+
+          print("Deleted branches:")
+          for branch in deleted:
+              print(f"- {branch}")
+          PY
