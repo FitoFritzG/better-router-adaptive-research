@@ -2,12 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-pytest.importorskip("streamlit")
-
-from streamlit.testing.v1 import AppTest
-
 
 def test_streamlit_app_renders_core_sections() -> None:
+    pytest.importorskip("streamlit")
+    from streamlit.testing.v1 import AppTest
+
     app = AppTest.from_file("app/streamlit_app.py", default_timeout=45).run()
 
     assert not app.exception
