@@ -132,4 +132,4 @@ jobs:
       - name: Streamlit bonus format
         run: ruff format --check app tests/app
       - name: Streamlit bonus typing
-        run: mypy app tests/app
+        run: mypy src tests app
