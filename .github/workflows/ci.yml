@@ -137,7 +137,7 @@ jobs:
           set +e
           ruff check app tests/app > bonus-diagnostics/ruff-check.txt 2>&1
           echo "$?" > bonus-diagnostics/ruff-check.status
-          ruff format --check app tests/app > bonus-diagnostics/ruff-format.txt 2>&1
+          ruff format --diff app tests/app > bonus-diagnostics/ruff-format.txt 2>&1
           echo "$?" > bonus-diagnostics/ruff-format.status
           mypy app tests/app > bonus-diagnostics/mypy.txt 2>&1
           echo "$?" > bonus-diagnostics/mypy.status
