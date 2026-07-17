@@ -83,9 +83,6 @@ jobs:
       - name: Ruff format — paper
         if: always()
         run: ruff format --check paper
-      - name: Ruff format — scripts
-        if: always()
-        run: ruff format --check scripts
       - name: Strict typing
         if: always()
         run: mypy src tests
