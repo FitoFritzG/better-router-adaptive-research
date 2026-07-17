@@ -178,9 +178,7 @@ def _render_results(results: PublicResults) -> None:
         format_func=lambda value: _METRIC_LABELS[value],
     )
     seed_policies = selected or default_policies
-    seed_frame = results.per_seed.loc[
-        results.per_seed["policy"].isin(seed_policies)
-    ].copy()
+    seed_frame = results.per_seed.loc[results.per_seed["policy"].isin(seed_policies)].copy()
     if seed_frame.empty:
         st.warning("No hay resultados por semilla para las políticas seleccionadas.")
     else:
@@ -278,9 +276,7 @@ def main() -> None:
         st.error(f"No fue posible cargar los resultados públicos: {exc}")
         st.stop()
 
-    summary_tab, results_tab, simulator_tab = st.tabs(
-        ["Resumen", "Resultados", "Simulador"]
-    )
+    summary_tab, results_tab, simulator_tab = st.tabs(["Resumen", "Resultados", "Simulador"])
     with summary_tab:
         _render_summary(results)
     with results_tab:
