@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Final
+from typing import Final, cast
 
 import numpy as np
 import pandas as pd
@@ -172,11 +172,14 @@ def simulate_prompt(
     )
     features = build_prompt_features(input_frame, task_groups=bundle.task_groups)
     contexts = bundle.scaler.transform(features)
+    char_count = cast(int | float, features.at[0, "prompt_char_count"])
+    word_count = cast(int | float, features.at[0, "prompt_word_count"])
+    average_word_length = cast(int | float, features.at[0, "prompt_avg_word_length"])
 
     return SimulationResult(
         xgboost_arm=bundle.xgboost.route(contexts)[0],
         linucb_arm=bundle.linucb.route(contexts)[0],
-        prompt_char_count=int(features.loc[0, "prompt_char_count"]),
-        prompt_word_count=int(features.loc[0, "prompt_word_count"]),
-        prompt_avg_word_length=float(features.loc[0, "prompt_avg_word_length"]),
+        prompt_char_count=int(char_count),
+        prompt_word_count=int(word_count),
+        prompt_avg_word_length=float(average_word_length),
     )
