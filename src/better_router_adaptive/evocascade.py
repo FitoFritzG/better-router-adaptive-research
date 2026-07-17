@@ -38,9 +38,7 @@ class SepCMAES:
         self.dimension = dimension
         self.sigma0 = float(sigma)
         self._rng = np.random.default_rng(seed)
-        self.population = (
-            population if population is not None else 4 + int(3 * np.log(n))
-        )
+        self.population = population if population is not None else 4 + int(3 * np.log(n))
         if self.population < 2:
             raise RouterError("population must contain at least two candidates")
         self.mu = self.population // 2
@@ -48,9 +46,7 @@ class SepCMAES:
         self.weights = raw_weights / raw_weights.sum()
         self.mu_eff = float(1.0 / np.sum(self.weights**2))
         self.c_sigma = (self.mu_eff + 2) / (n + self.mu_eff + 5)
-        self.d_sigma = (
-            1 + 2 * max(0.0, np.sqrt((self.mu_eff - 1) / (n + 1)) - 1) + self.c_sigma
-        )
+        self.d_sigma = 1 + 2 * max(0.0, np.sqrt((self.mu_eff - 1) / (n + 1)) - 1) + self.c_sigma
         self.c_c = (4 + self.mu_eff / n) / (n + 4 + 2 * self.mu_eff / n)
         c_1 = 2 / ((n + 1.3) ** 2 + self.mu_eff)
         c_mu = min(
@@ -98,9 +94,7 @@ class SepCMAES:
                 self.c_sigma * (2 - self.c_sigma) * self.mu_eff
             ) * (step_mean / std)
             path_sigma_norm = float(np.linalg.norm(path_sigma))
-            expected = path_sigma_norm / np.sqrt(
-                1 - (1 - self.c_sigma) ** (2 * generation)
-            )
+            expected = path_sigma_norm / np.sqrt(1 - (1 - self.c_sigma) ** (2 * generation))
             h_sigma = 1.0 if expected / self.chi_n < 1.4 + 2 / (n + 1) else 0.0
             path_c = (1 - self.c_c) * path_c + h_sigma * np.sqrt(
                 self.c_c * (2 - self.c_c) * self.mu_eff
@@ -114,9 +108,7 @@ class SepCMAES:
             )
             variances = np.clip(variances, 1e-20, 1e20)
             sigma *= float(
-                np.exp(
-                    (self.c_sigma / self.d_sigma) * (path_sigma_norm / self.chi_n - 1)
-                )
+                np.exp((self.c_sigma / self.d_sigma) * (path_sigma_norm / self.chi_n - 1))
             )
         return best_solution
 
@@ -124,9 +116,7 @@ class SepCMAES:
 class EvoCascadeRouter:
     """Linear cascade policy optimized directly with separable CMA-ES."""
 
-    def __init__(
-        self, space: ActionSpace, *, sigma: float, iterations: int, seed: int
-    ) -> None:
+    def __init__(self, space: ActionSpace, *, sigma: float, iterations: int, seed: int) -> None:
         if iterations <= 0:
             raise RouterError("iterations must be positive")
         if sigma <= 0:
