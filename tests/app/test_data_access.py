@@ -79,7 +79,7 @@ def test_load_public_results_returns_sorted_copies(tmp_path: Path) -> None:
 
 
 def test_load_public_results_rejects_missing_file(tmp_path: Path) -> None:
-    with pytest.raises(PublicResultsError, match="evaluation_summary.csv"):
+    with pytest.raises(PublicResultsError, match=r"evaluation_summary\.csv"):
         load_public_results(tmp_path)
 
 
