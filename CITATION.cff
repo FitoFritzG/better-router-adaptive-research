@@ -10,12 +10,14 @@ authors:
   - family-names: Friz
     given-names: Felipe
 repository-code: https://github.com/FitoFritzG/better-router-adaptive-research
-version: 0.2.0
-date-released: 2026-07-13
+version: 0.3.0
+date-released: 2026-07-17
 license: MIT
 keywords:
   - multi-LLM routing
   - contextual bandits
   - XGBoost
+  - model cascades
+  - CMA-ES
   - cost-aware inference
   - RouterBench
