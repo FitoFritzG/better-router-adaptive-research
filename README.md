@@ -3,9 +3,9 @@
 [![CI](https://github.com/FitoFritzG/better-router-adaptive-research/actions/workflows/ci.yml/badge.svg)](https://github.com/FitoFritzG/better-router-adaptive-research/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.12%20%7C%203.13-blue)](pyproject.toml)
 [![Licencia MIT](https://img.shields.io/badge/c%C3%B3digo-MIT-green)](LICENSE)
-[![Estado](https://img.shields.io/badge/estado-resultados%20reproducidos-success)](#resultados-reproducidos)
+[![Estado](https://img.shields.io/badge/entrega-obligatoria%20lista-success)](ENTREGA.md)
 
-Investigación reproducible sobre **enrutamiento adaptativo de modelos de lenguaje**. El estudio evalúa si una política aprendida puede seleccionar, para cada consulta, el modelo que maximiza una utilidad conjunta de calidad, costo, latencia y confiabilidad.
+Investigación reproducible sobre **enrutamiento adaptativo de modelos de lenguaje**. El proyecto estudia si una política aprendida puede seleccionar, para cada consulta, el modelo que maximiza una utilidad conjunta de calidad, costo, latencia y confiabilidad.
 
 ## Integrantes
 
@@ -15,25 +15,47 @@ Investigación reproducible sobre **enrutamiento adaptativo de modelos de lengua
 
 Universidad del Bío-Bío — Ingeniería Civil en Automatización.
 
-## Estado científico
+## Estado de la entrega
 
-El experimento principal fue ejecutado sobre RouterBench 0-shot con **36.497 prompts**, cuatro brazos de modelo, cinco semillas y bootstrap pareado por `prompt_id`. La reproducción independiente de los artefactos entregados obtuvo coincidencia numérica exacta en `evaluation_summary.csv` y `evaluation_per_seed.csv`.
+La **entrega obligatoria está cerrada y lista para evaluación técnica**.
 
-> **Conclusión principal:** con las características pre-inferencia actuales, XGBoost y LinUCB **no superan de manera estadísticamente significativa** a Better Rules Proxy. El Oracle offline sí obtiene una mejora de utilidad de aproximadamente `+0,068`, lo que demuestra que existe margen para un router por consulta, pero las señales usadas todavía no permiten capturarlo.
+- Guía del profesor: [`EVALUACION_PROFESOR.md`](EVALUACION_PROFESOR.md).
+- Resumen de entrega: [`ENTREGA.md`](ENTREGA.md).
+- Código fuente: [`src/better_router_adaptive/`](src/better_router_adaptive/).
+- Pruebas: [`tests/`](tests/).
+- Resultados agregados: [`artifacts/public/step7-real/`](artifacts/public/step7-real/).
+- Metodología y análisis: [`docs/`](docs/).
+- Póster científico: se entrega como archivo PDF separado.
 
-### Última extensión: EvoCascade-Ideal
+El bonus se desarrollará posteriormente en una rama nueva y no altera esta versión evaluable.
 
-El equipo evaluó una política secuencial optimizada mediante **sep-CMA-ES** que primero llama a un modelo económico y puede escalar hacia uno más potente. Bajo un **verificador perfecto simulado**, EvoCascade-Ideal mejora la utilidad en aproximadamente `+0,0321`, con IC 95 % `[+0,0302; +0,0341]`.
+## Problema de ingeniería
 
-> **Advertencia:** la escalada se activa con la calidad verdadera del benchmark (`quality == 0`) o con un fallo de llamada. Esta señal no está disponible automáticamente en producción. El resultado es una **cota superior experimental**, no rendimiento directamente desplegable.
+Un router multi-LLM debe decidir qué modelo utilizar antes de conocer la respuesta. Elegir siempre el modelo más potente aumenta el costo; elegir siempre el más económico puede reducir la calidad. El problema consiste en seleccionar un modelo por consulta considerando simultáneamente:
 
-Las ablaciones muestran que nunca escalar reduce la utilidad a `0,431`, mientras que escalar siempre queda aproximadamente en la baseline (`0,496`). El desafío central pasa a ser entrenar y validar un verificador real. Consulte [`LATEST_STUDY.md`](LATEST_STUDY.md) y los [artefactos agregados](artifacts/public/evocascade-ideal-verifier/).
+- calidad;
+- costo;
+- latencia;
+- errores o fallos;
+- características observables antes de ejecutar el modelo.
 
-## Pregunta de investigación
+Pregunta de investigación:
 
 > ¿Las políticas de enrutamiento aprendidas logran una utilidad esperada superior a una política ponderada determinista al seleccionar entre modelos heterogéneos?
 
-## Arquitectura del estudio
+## Algoritmos obligatorios
+
+| Estrategia | Función en el estudio |
+|---|---|
+| **XGBoost** | Regresión supervisada de utilidad, con un modelo por brazo |
+| **LinUCB** | Bandit contextual disjunto con evaluación prequential |
+| Better Rules Proxy | Línea base determinista |
+| Brazos fijos | Referencias que siempre seleccionan el mismo modelo |
+| Oracle offline | Cota superior no desplegable |
+
+`EvoCascade-Ideal` permanece versionado como estudio exploratorio adicional. No es necesario para evaluar el cumplimiento obligatorio y usa un verificador ideal simulado, por lo que no representa rendimiento directamente desplegable.
+
+## Arquitectura
 
 ```mermaid
 flowchart LR
@@ -51,112 +73,87 @@ flowchart LR
     I --> J[Utilidad, regret e IC 95 %]
 ```
 
-## Flujo reproducible
+## Pipeline reproducible
 
 ```mermaid
 flowchart TD
-    A[RouterBench fijado por SHA-256] --> B[Conversión controlada a CSV]
+    A[RouterBench fijado por SHA-256] --> B[Conversión controlada]
     B --> C[Esquema canónico y limpieza]
     C --> D[Características sin fuga]
     D --> E[Split 70/15/15 por prompt]
-    E --> F[Utilidad anclada a train]
-    F --> G[Baseline y Oracle]
+    E --> F[Normalización anclada a train]
+    F --> G[Better Rules Proxy y Oracle]
     F --> H[XGBoost]
     F --> I[LinUCB]
     G --> J[Evaluación de 5 semillas]
     H --> J
     I --> J
     J --> K[Bootstrap pareado de 2.000 remuestras]
-    K --> L[Tablas, gráficos, póster e informe]
+    K --> L[Resultados agregados y figuras]
 ```
 
-## Algoritmos comparados
+## Procesamiento de datos
 
-| Estrategia | Rol |
-|---|---|
-| Better Rules Proxy | Línea base determinista aprendida solo desde `train` |
-| XGBoost | Regresor supervisado de utilidad, uno por brazo |
-| LinUCB | Bandit contextual disjunto con replay prequential |
-| EvoCascade-Ideal | Cascada optimizada con sep-CMA-ES y verificador perfecto simulado |
-| Oracle offline | Cota superior no desplegable |
-| Brazos fijos | Referencias que siempre eligen el mismo modelo |
+El pipeline implementa:
 
-La utilidad bloqueada es:
+1. descarga desde la fuente oficial;
+2. verificación de tamaño, revisión y SHA-256;
+3. conversión de `pickle` a CSV no ejecutable;
+4. validación de esquema;
+5. eliminación de duplicados exactos;
+6. rechazo de duplicados contradictorios;
+7. filtrado de valores inválidos;
+8. conservación de prompts con cuatro brazos completos;
+9. creación de características pre-inferencia;
+10. división agrupada por `prompt_id` para evitar fuga de información.
+
+El dataset original y las tablas procesadas fila por fila no se redistribuyen porque la tarjeta de RouterBench no declara una licencia explícita para esos datos. El repositorio publica scripts, checksums, configuraciones, resultados agregados y figuras.
+
+## Función de utilidad
+
+La evaluación utiliza:
 
 $$
 U = 0.65Q - 0.20C_n - 0.10L_n - 0.05E
 $$
 
 - `Q`: calidad normalizada.
-- `C_n`: costo normalizado con estadísticas calculadas solo en `train`.
+- `C_n`: costo normalizado con estadísticas calculadas solo en entrenamiento.
 - `L_n`: latencia normalizada.
 - `E`: indicador de error.
 
-**Limitación:** RouterBench no aporta latencia para el artefacto utilizado; el término de latencia queda deshabilitado en la ejecución real y no se renormalizan los pesos restantes.
+RouterBench no aporta latencia en el artefacto real utilizado. En esa ejecución el término de latencia queda deshabilitado y los pesos restantes no se renormalizan.
 
-## Dataset experimental
+## Resultados principales
 
-Se utilizan cuatro brazos seleccionados de manera exploratoria desde el artefacto RouterBench verificado:
+El experimento utiliza **36.497 prompts**, cuatro modelos, cinco semillas y bootstrap pareado por `prompt_id`.
 
-| Brazo | Calidad media | Costo medio USD |
-|---|---:|---:|
-| `mistralai/mistral-7b-chat` | 0,306 | 0,000046 |
-| `mistralai/mixtral-8x7b-chat` | 0,547 | 0,000135 |
-| `zero-one-ai/Yi-34B-Chat` | 0,647 | 0,000186 |
-| `gpt-4-1106-preview` | 0,781 | 0,003293 |
+| Política | Utilidad media | Diferencia vs. baseline | IC 95 % de la diferencia |
+|---|---:|---:|---:|
+| Oracle offline | 0,564086 | +0,068004 | [0,065643; 0,070490] |
+| XGBoost | 0,496082 | ≈ 0 | [-0,000548; 0,000576] |
+| Better Rules Proxy | 0,496082 | 0 | [0; 0] |
+| LinUCB | 0,495940 | -0,000142 | [-0,000475; 0,000189] |
 
-El dataset procesado contiene **145.988 filas**, exactamente cuatro resultados por prompt y ninguna clave `(prompt_id, model_id)` duplicada.
+Conclusión:
 
-### Política de datos
+> Con las características pre-inferencia actuales, XGBoost y LinUCB no superan de manera estadísticamente significativa a Better Rules Proxy. El Oracle offline demuestra que existe margen real para mejorar el enrutamiento por consulta, pero las señales utilizadas todavía no permiten capturarlo.
 
-El dataset alojado por RouterBench no declara una licencia explícita en su tarjeta. Por esta razón:
+Este es un resultado válido: permite identificar limitaciones del espacio de características y fundamentar mejoras futuras.
 
-- el dataset original y sus tablas fila por fila **no se redistribuyen** en este repositorio público;
-- se publican scripts, configuración, checksums, resultados agregados y figuras;
-- cada reproducción debe descargar el artefacto desde su fuente oficial y revisar sus términos.
-
-## Resultados reproducidos
-
-| Política | Utilidad media | IC 95 % | Diferencia vs. baseline | IC 95 % de la diferencia |
-|---|---:|---:|---:|---:|
-| Oracle | 0,564086 | [0,561654; 0,566461] | +0,068004 | [0,065643; 0,070490] |
-| EvoCascade-Ideal | 0,528190 | [0,525061; 0,531148] | +0,032108 | [0,030230; 0,034090] |
-| XGBoost | 0,496082 | [0,492714; 0,499395] | +0,000000 | [-0,000548; 0,000576] |
-| Better Rules Proxy | 0,496082 | [0,492652; 0,499294] | 0 | [0; 0] |
-| GPT-4 fijo | 0,496082 | [0,492652; 0,499294] | 0 | [0; 0] |
-| LinUCB | 0,495940 | [0,492590; 0,499221] | -0,000142 | [-0,000475; 0,000189] |
-| Yi-34B fijo | 0,421682 | [0,417763; 0,425488] | -0,074400 | [-0,078318; -0,070398] |
-| Mixtral fijo | 0,355936 | [0,351823; 0,359983] | -0,140146 | [-0,144500; -0,135763] |
-| Mistral fijo | 0,197879 | [0,194216; 0,201709] | -0,298203 | [-0,303143; -0,293205] |
-
-Resultados agregados versionados: [`artifacts/public/step7-real/`](artifacts/public/step7-real/) y [`artifacts/public/evocascade-ideal-verifier/`](artifacts/public/evocascade-ideal-verifier/).
-
-### Comparación de políticas
+### Figuras
 
 ![Comparación de políticas](artifacts/public/step7-real/figures/comparacion_politicas.svg)
 
-### Frontera calidad-costo
-
 ![Frontera calidad-costo](artifacts/public/step7-real/figures/frontera_calidad_costo.svg)
 
-### Regret de LinUCB
-
 ![Regret acumulado de LinUCB](artifacts/public/step7-real/figures/regret_linucb.svg)
-
-## Interpretación
-
-1. Better Rules Proxy converge a seleccionar GPT-4 para todas las categorías bajo la función de utilidad usada.
-2. XGBoost reproduce prácticamente esa misma decisión; su intervalo de diferencia cruza cero.
-3. LinUCB obtiene una utilidad ligeramente menor, pero la diferencia tampoco es concluyente.
-4. El Oracle mejora simultáneamente la utilidad y la relación calidad-costo, por lo que el problema de routing no es inútil: faltan señales contextuales más informativas.
-5. EvoCascade-Ideal captura parte de esa brecha, pero depende de un verificador perfecto simulado con ground truth.
-6. La selección de brazos se realizó después de inspeccionar promedios globales de calidad y costo. Por ello, el estudio debe interpretarse como **exploratorio**, no como una evaluación confirmatoria preregistrada.
-
-Análisis completo: [`docs/RESULTS.md`](docs/RESULTS.md) y [`LATEST_STUDY.md`](LATEST_STUDY.md).
 
 ## Instalación
 
 ```bash
+git clone https://github.com/FitoFritzG/better-router-adaptive-research.git
+cd better-router-adaptive-research
 python -m venv .venv
 ```
 
@@ -176,21 +173,22 @@ python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ```
 
-El proyecto fija `xgboost==3.3.0` porque esa versión reproduce los artefactos numéricos publicados.
-
-## Reproducir la evaluación final
+## Evaluación rápida
 
 ```bash
-python -m better_router_adaptive.evaluate \
-  --input data/processed/step3-real/routerbench_canonical_clean.csv.gz \
-  --output-directory artifacts/runs/step7-real \
-  --bootstrap-samples 2000 \
-  --evidence-label "RouterBench 0-shot — datos reales"
+python scripts/verify_professor_submission.py
+python -m pytest -q
 ```
 
-Cada semilla se evalúa en un proceso independiente. Esto evita la acumulación de estado nativo de XGBoost/OpenMP durante los cinco entrenamientos completos.
+## Evaluación completa
 
-## Verificación
+Linux/macOS con `make`:
+
+```bash
+make professor-check
+```
+
+Comandos equivalentes en cualquier sistema:
 
 ```bash
 python -m pytest -q \
@@ -202,12 +200,28 @@ ruff check .
 ruff format --check .
 mypy src tests
 python -m build
+python scripts/verify_professor_submission.py
 ```
 
 La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke tests en Python 3.12 y 3.13.
 
+## Interfaces de ejecución
+
+```bash
+python -m better_router_adaptive.data.download --help
+python -m better_router_adaptive.data.convert --help
+python -m better_router_adaptive.data.pipeline --help
+python -m better_router_adaptive.prepare --help
+python -m better_router_adaptive.baselines --help
+python -m better_router_adaptive.learn --help
+python -m better_router_adaptive.evaluate --help
+```
+
 ## Documentación
 
+- [Guía de evaluación](EVALUACION_PROFESOR.md)
+- [Entrega académica](ENTREGA.md)
+- [Reproducibilidad](docs/REPRODUCIBILITY.md)
 - [Metodología](docs/METHODOLOGY.md)
 - [Diccionario de datos](docs/DATA_DICTIONARY.md)
 - [Características y particiones](docs/STEP_4_FEATURES_SPLITS.md)
@@ -215,24 +229,7 @@ La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke 
 - [Routers aprendidos](docs/STEP_6_LEARNED_ROUTERS.md)
 - [Evaluación final](docs/STEP_7_EVALUATION.md)
 - [Resultados y limitaciones](docs/RESULTS.md)
-- [Último estudio: EvoCascade-Ideal](LATEST_STUDY.md)
-- [Estado de la tarea académica](docs/ASSIGNMENT_READINESS.md)
-- [Revisión del aporte del equipo](docs/reviews/TEAMMATE_DELIVERY_REVIEW.md)
-- [Generador reproducible del póster](paper/poster/build_poster.py)
-
-## Estado del proyecto
-
-- [x] Procedencia y adquisición verificable de RouterBench.
-- [x] Conversión, esquema canónico y limpieza.
-- [x] Características sin fuga y split por `prompt_id`.
-- [x] Función de utilidad, baseline y Oracle.
-- [x] XGBoost y LinUCB.
-- [x] Evaluación multi-semilla y bootstrap pareado.
-- [x] Resultados reproducidos independientemente.
-- [x] Extensión EvoCascade-Ideal auditada con ablación del verificador.
-- [x] README, documentación y generador del póster con los tres integrantes.
-- [ ] Informe IEEE final actualizado con resultados y conclusiones definitivas.
 
 ## Licencias y privacidad
 
-El código propio se publica bajo MIT. Los datasets y benchmarks de terceros conservan sus términos. No se almacenan prompts de producción, API keys, usuarios ni información privada de Better Router. Consulte [`LICENSES.md`](LICENSES.md).
+El código propio se publica bajo licencia MIT. Los datasets y benchmarks de terceros conservan sus términos. El repositorio no incluye prompts de producción, API keys, usuarios, credenciales ni datos privados de Better Router.
