@@ -55,6 +55,7 @@ packages = ["src/better_router_adaptive"]
 include = [
   "/src",
   "/tests",
+  "/scripts",
   "/config",
   "/docs",
   "/paper",
@@ -69,6 +70,7 @@ include = [
   "/Makefile",
   "/requirements.txt",
   "/ENTREGA.md",
+  "/EVALUACION_PROFESOR.md",
 ]
 
 [tool.pytest.ini_options]
