@@ -1,0 +1,18 @@
+{
+  "study": "evocascade-ideal-verifier",
+  "interpretation": "upper_bound_not_deployable",
+  "seeds": [42, 123, 2026, 31415, 271828],
+  "bootstrap_samples": 2000,
+  "baseline_utility": 0.4961546671788263,
+  "ideal_utility": 0.5284586307681841,
+  "never_escalate_utility": 0.4311286802066693,
+  "always_escalate_utility": 0.49567656690051054,
+  "ideal_gain_vs_baseline": 0.03230396358935783,
+  "never_gain_vs_baseline": -0.06502598697215704,
+  "always_gain_vs_baseline": -0.00047810027831572953,
+  "cascade_action_share": 0.8333515981735159,
+  "actual_ideal_escalation_share": 0.24840182648401826,
+  "ideal_quality": 0.8251780821917809,
+  "ideal_cost_usd": 0.0020092914264840107,
+  "warning": "Escalation uses benchmark ground-truth quality == 0 or call failure."
+}

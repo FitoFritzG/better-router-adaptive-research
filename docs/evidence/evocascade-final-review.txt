@@ -1,0 +1,34 @@
+EvoCascade ideal-verifier integration review
+Date: 2026-07-17
+Authors: Rodolfo Fritz; Benjamín Cerda; Felipe Friz
+
+Input reviewed
+- cerda_fritz_friz.zip
+- 127 ZIP entries; no path traversal detected
+- row-level processed RouterBench data excluded from public integration
+
+Group snapshot verification
+- 139 tests passed
+- total coverage with branches: 91.41 %
+
+Independent numerical checks
+- one real seed reproduced EvoCascade metrics
+- five-seed verifier ablation completed
+- baseline mean utility: 0.4961546672
+- ideal-verifier mean utility: 0.5284586308
+- never-escalate mean utility: 0.4311286802
+- always-escalate mean utility: 0.4956765669
+- cascade action share: 0.8333515982
+- actual ideal escalation share: 0.2484018265
+
+Scientific disposition
+- integrate EvoCascade as an ideal-verifier upper-bound experiment
+- do not describe it as directly deployable
+- do not replace stable main pipeline with the stale group snapshot
+- correct poster wording and remove personal email addresses
+
+Local extension gate
+- 12 focused tests passed
+- Ruff lint passed
+- Ruff format passed
+- mypy strict passed for extension files

@@ -74,7 +74,16 @@ jobs:
       - name: Ruff lint
         if: always()
         run: ruff check .
-      - name: Ruff format
+      - name: Ruff format — source
+        if: always()
+        run: ruff format --check src
+      - name: Ruff format — tests
+        if: always()
+        run: ruff format --check tests
+      - name: Ruff format — paper
+        if: always()
+        run: ruff format --check paper
+      - name: Ruff format — complete repository
         if: always()
         run: ruff format --check .
       - name: Strict typing

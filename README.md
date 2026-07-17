@@ -21,6 +21,14 @@ El experimento principal fue ejecutado sobre RouterBench 0-shot con **36.497 pro
 
 > **Conclusión principal:** con las características pre-inferencia actuales, XGBoost y LinUCB **no superan de manera estadísticamente significativa** a Better Rules Proxy. El Oracle offline sí obtiene una mejora de utilidad de aproximadamente `+0,068`, lo que demuestra que existe margen para un router por consulta, pero las señales usadas todavía no permiten capturarlo.
 
+### Última extensión: EvoCascade-Ideal
+
+El equipo evaluó una política secuencial optimizada mediante **sep-CMA-ES** que primero llama a un modelo económico y puede escalar hacia uno más potente. Bajo un **verificador perfecto simulado**, EvoCascade-Ideal mejora la utilidad en aproximadamente `+0,0321`, con IC 95 % `[+0,0302; +0,0341]`.
+
+> **Advertencia:** la escalada se activa con la calidad verdadera del benchmark (`quality == 0`) o con un fallo de llamada. Esta señal no está disponible automáticamente en producción. El resultado es una **cota superior experimental**, no rendimiento directamente desplegable.
+
+Las ablaciones muestran que nunca escalar reduce la utilidad a `0,431`, mientras que escalar siempre queda aproximadamente en la baseline (`0,496`). El desafío central pasa a ser entrenar y validar un verificador real. Consulte [`LATEST_STUDY.md`](LATEST_STUDY.md) y los [artefactos agregados](artifacts/public/evocascade-ideal-verifier/).
+
 ## Pregunta de investigación
 
 > ¿Las políticas de enrutamiento aprendidas logran una utilidad esperada superior a una política ponderada determinista al seleccionar entre modelos heterogéneos?
@@ -69,6 +77,7 @@ flowchart TD
 | Better Rules Proxy | Línea base determinista aprendida solo desde `train` |
 | XGBoost | Regresor supervisado de utilidad, uno por brazo |
 | LinUCB | Bandit contextual disjunto con replay prequential |
+| EvoCascade-Ideal | Cascada optimizada con sep-CMA-ES y verificador perfecto simulado |
 | Oracle offline | Cota superior no desplegable |
 | Brazos fijos | Referencias que siempre eligen el mismo modelo |
 
@@ -111,6 +120,7 @@ El dataset alojado por RouterBench no declara una licencia explícita en su tarj
 | Política | Utilidad media | IC 95 % | Diferencia vs. baseline | IC 95 % de la diferencia |
 |---|---:|---:|---:|---:|
 | Oracle | 0,564086 | [0,561654; 0,566461] | +0,068004 | [0,065643; 0,070490] |
+| EvoCascade-Ideal | 0,528190 | [0,525061; 0,531148] | +0,032108 | [0,030230; 0,034090] |
 | XGBoost | 0,496082 | [0,492714; 0,499395] | +0,000000 | [-0,000548; 0,000576] |
 | Better Rules Proxy | 0,496082 | [0,492652; 0,499294] | 0 | [0; 0] |
 | GPT-4 fijo | 0,496082 | [0,492652; 0,499294] | 0 | [0; 0] |
@@ -119,7 +129,7 @@ El dataset alojado por RouterBench no declara una licencia explícita en su tarj
 | Mixtral fijo | 0,355936 | [0,351823; 0,359983] | -0,140146 | [-0,144500; -0,135763] |
 | Mistral fijo | 0,197879 | [0,194216; 0,201709] | -0,298203 | [-0,303143; -0,293205] |
 
-Resultados agregados versionados: [`artifacts/public/step7-real/`](artifacts/public/step7-real/).
+Resultados agregados versionados: [`artifacts/public/step7-real/`](artifacts/public/step7-real/) y [`artifacts/public/evocascade-ideal-verifier/`](artifacts/public/evocascade-ideal-verifier/).
 
 ### Comparación de políticas
 
@@ -139,9 +149,10 @@ Resultados agregados versionados: [`artifacts/public/step7-real/`](artifacts/pub
 2. XGBoost reproduce prácticamente esa misma decisión; su intervalo de diferencia cruza cero.
 3. LinUCB obtiene una utilidad ligeramente menor, pero la diferencia tampoco es concluyente.
 4. El Oracle mejora simultáneamente la utilidad y la relación calidad-costo, por lo que el problema de routing no es inútil: faltan señales contextuales más informativas.
-5. La selección de brazos se realizó después de inspeccionar promedios globales de calidad y costo. Por ello, el estudio debe interpretarse como **exploratorio**, no como una evaluación confirmatoria preregistrada.
+5. EvoCascade-Ideal captura parte de esa brecha, pero depende de un verificador perfecto simulado con ground truth.
+6. La selección de brazos se realizó después de inspeccionar promedios globales de calidad y costo. Por ello, el estudio debe interpretarse como **exploratorio**, no como una evaluación confirmatoria preregistrada.
 
-Análisis completo: [`docs/RESULTS.md`](docs/RESULTS.md).
+Análisis completo: [`docs/RESULTS.md`](docs/RESULTS.md) y [`LATEST_STUDY.md`](LATEST_STUDY.md).
 
 ## Instalación
 
@@ -204,6 +215,8 @@ La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke 
 - [Routers aprendidos](docs/STEP_6_LEARNED_ROUTERS.md)
 - [Evaluación final](docs/STEP_7_EVALUATION.md)
 - [Resultados y limitaciones](docs/RESULTS.md)
+- [Último estudio: EvoCascade-Ideal](LATEST_STUDY.md)
+- [Estado de la tarea académica](docs/ASSIGNMENT_READINESS.md)
 - [Revisión del aporte del equipo](docs/reviews/TEAMMATE_DELIVERY_REVIEW.md)
 - [Generador reproducible del póster](paper/poster/build_poster.py)
 
@@ -216,6 +229,7 @@ La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke 
 - [x] XGBoost y LinUCB.
 - [x] Evaluación multi-semilla y bootstrap pareado.
 - [x] Resultados reproducidos independientemente.
+- [x] Extensión EvoCascade-Ideal auditada con ablación del verificador.
 - [x] README, documentación y generador del póster con los tres integrantes.
 - [ ] Informe IEEE final actualizado con resultados y conclusiones definitivas.
 
