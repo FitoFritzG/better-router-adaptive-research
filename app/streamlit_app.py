@@ -71,7 +71,10 @@ def _render_summary(results: PublicResults) -> None:
     )
 
     left, middle, right = st.columns(3)
-    left.metric("Prompts evaluados", f"{int(results.summary['prompts'].max()):,}".replace(",", "."))
+    left.metric(
+        "Prompts evaluados",
+        f"{int(results.summary['prompts'].max()):,}".replace(",", "."),
+    )
     middle.metric("Algoritmos principales", "2", help="XGBoost y LinUCB")
     right.metric("Semillas experimentales", str(results.per_seed["seed"].nunique()))
 
@@ -79,7 +82,8 @@ def _render_summary(results: PublicResults) -> None:
     st.markdown(
         """
 - **Dataset:** RouterBench, descargado desde su fuente oficial y verificado con SHA-256.
-- **Procesamiento:** conversión, validación, limpieza, normalización y características preinferencia.
+- **Procesamiento:** conversión, validación, limpieza, normalización y
+  características preinferencia.
 - **Algoritmos:** XGBoost supervisado y LinUCB como bandit contextual.
 - **Comparadores:** Better Rules Proxy, brazos fijos y Oracle offline.
 - **Métricas:** utilidad, calidad, costo, error, regret e intervalos de confianza del 95 %.
@@ -174,7 +178,9 @@ def _render_results(results: PublicResults) -> None:
         format_func=lambda value: _METRIC_LABELS[value],
     )
     seed_policies = selected or default_policies
-    seed_frame = results.per_seed.loc[results.per_seed["policy"].isin(seed_policies)].copy()
+    seed_frame = results.per_seed.loc[
+        results.per_seed["policy"].isin(seed_policies)
+    ].copy()
     if seed_frame.empty:
         st.warning("No hay resultados por semilla para las políticas seleccionadas.")
     else:
