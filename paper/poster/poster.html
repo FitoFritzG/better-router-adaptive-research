@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"/>
+<style>
+@page { size: 1189mm 841mm; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 1189mm; height: 841mm; font-family: "DejaVu Sans", "Liberation Sans", sans-serif;
+  background: #eef3f8; color: #16232f; font-size: 19.5pt; line-height: 1.3;
+  position: relative;
+}
+.footer {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(180deg, #0a5ca8 0%, #04365f 100%); color: #cfe3f7;
+  padding: 5mm 22mm; font-size: 16.5pt; text-align: center;
+}
+.footer strong { color: #ffffff; }
+.banner {
+  background: linear-gradient(180deg, #04365f 0%, #0a5ca8 100%); color: #ffffff;
+  padding: 13mm 22mm 11mm 22mm;
+}
+.banner h1 { font-size: 56pt; line-height: 1.08; letter-spacing: -0.5pt; }
+.banner .authors { font-size: 26pt; margin-top: 5mm; }
+.banner .affil { font-size: 19pt; margin-top: 2mm; color: #cfe3f7; }
+.columns {
+  display: table; table-layout: fixed; width: 100%;
+  border-spacing: 8mm 0; margin-top: 4mm; padding: 0 4mm;
+}
+.col { display: table-cell; vertical-align: top; }
+.block {
+  background: #ffffff; border: 0.7mm solid #b9cde2; border-radius: 4mm;
+  overflow: hidden; margin-bottom: 8mm; page-break-inside: avoid;
+}
+.block h2 {
+  background: linear-gradient(180deg, #0a5ca8 0%, #04365f 100%); color: #ffffff;
+  font-size: 27pt; padding: 3.5mm 6mm; letter-spacing: 0.5pt;
+}
+.block .body { padding: 5mm 6mm 6mm 6mm; }
+.block p + p, .block p + ul, .block ul + p, .block p + div { margin-top: 3mm; }
+ul { padding-left: 7mm; }
+li { margin-top: 1.8mm; }
+strong { color: #04365f; }
+.eq {
+  background: #eaf2fb; border: 0.5mm solid #b9cde2; border-radius: 2.5mm;
+  text-align: center; font-size: 23pt; padding: 3.5mm; margin: 3.5mm 0; font-weight: bold;
+  color: #04365f;
+}
+.flow { display: flex; flex-direction: column; gap: 2mm; margin-top: 3.5mm; }
+.frow { display: flex; align-items: stretch; gap: 2mm; }
+.fbox {
+  flex: 1; background: #eaf2fb; border: 0.6mm solid #7ba7d0; border-radius: 2.5mm;
+  padding: 2.5mm 3.5mm; text-align: center; font-size: 17pt;
+}
+.fbox.dark { background: #0a5ca8; color: #fff; border-color: #04365f; }
+.farrow { text-align: center; font-size: 20pt; color: #0a5ca8; font-weight: bold; }
+img.fig { width: 100%; }
+.caption { font-size: 15.5pt; color: #4a5d70; margin-top: 1.5mm; }
+table { border-collapse: collapse; width: 100%; font-size: 17pt; }
+th {
+  background: #04365f; color: #fff; padding: 2.5mm 2mm; text-align: center; font-size: 16.5pt;
+}
+td { border-bottom: 0.4mm solid #d4e1ee; padding: 2.2mm 2mm; text-align: center; }
+td.pol { text-align: left; }
+tr.hl td { background: #eaf2fb; font-weight: bold; }
+.ci { font-weight: normal; font-size: 13.5pt; color: #4a5d70; }
+.refs { font-size: 16pt; padding-left: 8mm; }
+.refs li { margin-top: 2mm; }
+.kpi { display: flex; gap: 3.5mm; margin-top: 3.5mm; margin-bottom: 3mm; }
+.kpibox {
+  flex: 1; background: #eaf2fb; border: 0.6mm solid #7ba7d0; border-radius: 2.5mm;
+  padding: 3mm; text-align: center;
+}
+.kpibox .n { font-size: 29pt; font-weight: bold; color: #04365f; }
+.kpibox .l { font-size: 14.5pt; color: #4a5d70; margin-top: 1mm; }
+</style></head>
+<body>
+<div class="banner">
+  <h1>Enrutamiento adaptativo de modelos de lenguaje: &iquest;superan las
+  pol&iacute;ticas aprendidas a una regla determinista?</h1>
+  <div class="authors">Rodolfo Fritz &middot; Benjam&iacute;n Cerda &middot; Felipe Friz</div>
+  <div class="affil">Universidad del B&iacute;o-B&iacute;o &mdash; Concepci&oacute;n,
+  Chile &middot; Inteligencia Artificial en
+  Autom&aacute;tica/Automatizaci&oacute;n &mdash; Proyecto Final 2026</div>
+</div>
+<div class="columns">
+
+<div class="col">
+  <div class="block"><h2>Introducci&oacute;n</h2><div class="body">
+    <p>Los sistemas basados en modelos de lenguaje (LLM) enfrentan un dilema de
+    ingenier&iacute;a: los modelos m&aacute;s capaces cuestan <strong>dos
+    &oacute;rdenes de magnitud m&aacute;s</strong> que los peque&ntilde;os, pero no
+    toda consulta requiere esa capacidad. Un <strong>router</strong> decide, consulta
+    a consulta, qu&eacute; modelo ejecutar.</p>
+    <p><strong>Pregunta:</strong> &iquest;logran las pol&iacute;ticas de enrutamiento
+    aprendidas una utilidad esperada superior a una pol&iacute;tica ponderada
+    determinista al elegir entre modelos heterog&eacute;neos?</p>
+    <p><strong>Objetivo:</strong> comparar dos algoritmos de IA &mdash;
+    <strong>XGBoost</strong> (supervisado) y <strong>LinUCB</strong> (bandit
+    contextual) &mdash; contra una baseline determinista y una cota superior (Oracle),
+    bajo una utilidad que pondera calidad, costo, latencia y error.</p>
+  </div></div>
+  <div class="block"><h2>Materiales y m&eacute;todos: datos</h2><div class="body">
+    <p><strong>RouterBench 0-shot</strong> [1]: resultados reales de 11 LLM sobre
+    benchmarks p&uacute;blicos, fijado por SHA-256 y convertido a un esquema
+    can&oacute;nico auditado (una fila por par consulta&ndash;modelo).</p>
+    <div class="kpi">
+      <div class="kpibox"><div class="n">36.497</div><div class="l">prompts</div></div>
+      <div class="kpibox"><div class="n">4</div><div class="l">brazos de modelo</div></div>
+      <div class="kpibox"><div class="n">145.988</div><div class="l">filas limpias</div></div>
+    </div>
+    <p>Brazos: <strong>cuatro niveles de costo con calidad creciente</strong>,
+    excluyendo modelos dominados &mdash; Mistral&nbsp;7B (r&aacute;pido),
+    Mixtral&nbsp;8x7B (equilibrado), Yi-34B (razonamiento), GPT-4&nbsp;Turbo
+    (premium).</p>
+    <p><strong>Preprocesamiento:</strong> limpieza determinista (duplicados, rangos,
+    consistencia por prompt); caracter&iacute;sticas <em>pre-inferencia</em>
+    (longitud del texto, tipo de tarea one-hot); partici&oacute;n <strong>70/15/15
+    agrupada por prompt</strong> y estratificada por tarea, con 5 semillas bloqueadas
+    y pruebas autom&aacute;ticas contra fugas de informaci&oacute;n.</p>
+  </div></div>
+</div>
+
+<div class="col">
+  <div class="block"><h2>Funci&oacute;n de utilidad</h2><div class="body">
+    <p>Definida y bloqueada antes de ver resultados:</p>
+    <div class="eq">U = 0.65&middot;Q &minus; 0.20&middot;C<sub>n</sub> &minus;
+    0.10&middot;L<sub>n</sub> &minus; 0.05&middot;E</div>
+    <p class="caption">Q: calidad &isin; [0,1]; C<sub>n</sub>, L<sub>n</sub>: costo y
+    latencia min-max <strong>anclados al split de train</strong>; E: indicador de
+    error. La latencia del artefacto es nula y su t&eacute;rmino queda deshabilitado
+    expl&iacute;citamente.</p>
+    <div class="flow">
+      <div class="frow"><div class="fbox">Consulta (prompt)</div></div>
+      <div class="farrow">&darr;</div>
+      <div class="frow"><div class="fbox">Caracter&iacute;sticas pre-inferencia
+      (longitud, tipo de tarea)</div></div>
+      <div class="farrow">&darr;</div>
+      <div class="frow">
+        <div class="fbox dark">Reglas<br/>(baseline)</div>
+        <div class="fbox dark">XGBoost</div>
+        <div class="fbox dark">LinUCB</div>
+        <div class="fbox">Oracle</div>
+      </div>
+      <div class="farrow">&darr;</div>
+      <div class="frow"><div class="fbox">Modelo seleccionado &rarr; calidad, costo,
+      error &rarr; utilidad U</div></div>
+    </div>
+  </div></div>
+  <div class="block"><h2>Algoritmos y evaluaci&oacute;n</h2><div class="body">
+    <ul>
+      <li><strong>Better Rules Proxy:</strong> tabla determinista tarea&rarr;brazo
+      con mejor utilidad media en train.</li>
+      <li><strong>XGBoost</strong> [3]: un regresor de utilidad por brazo; ruteo por
+      argmax; grilla de 8 configuraciones elegida <em>solo en
+      validaci&oacute;n</em>.</li>
+      <li><strong>LinUCB disjunto</strong> [2]: bandit contextual entrenado por
+      <em>replay prequential</em> (elegir&rarr;observar&rarr;actualizar) sobre un
+      barajado con semilla de train; &alpha; elegido en validaci&oacute;n.</li>
+      <li><strong>Oracle offline:</strong> mejor brazo realizado por prompt (cota
+      superior no desplegable).</li>
+    </ul>
+    <p><strong>M&eacute;tricas:</strong> utilidad media, calidad media, costo medio y
+    tasa de error en test; <strong>IC 95&nbsp;% por bootstrap pareado</strong>
+    (2000 remuestras por <em>prompt</em>) sobre 5 semillas.</p>
+    <p><strong>Implementaci&oacute;n:</strong> Python modular (pandas, scikit-learn,
+    xgboost, numpy), CI con mypy estricto, ruff y cobertura &ge; 85&nbsp;%; tablas y
+    figuras generadas desde artefactos, nunca a mano.</p>
+  </div></div>
+</div>
+
+<div class="col">
+  <div class="block"><h2>Resultados</h2><div class="body">
+    <table>
+      <tr><th>Pol&iacute;tica</th><th>Utilidad U</th><th>&Delta; vs baseline<br/>[IC 95 %]</th>
+      <th>Calidad</th><th>Costo [USD]</th></tr>
+      <tr class='hl'><td class='pol'>Oracle offline (cota superior)</td><td>0.5641</td><td>+0.0680<br/><span class='ci'>[+0.0656, +0.0705]</span></td><td>0.871</td><td>0.00061</td></tr>
+<tr class='hl'><td class='pol'>Better Rules Proxy (baseline)</td><td>0.4961</td><td>—</td><td>0.783</td><td>0.00329</td></tr>
+<tr class='hl'><td class='pol'>Router XGBoost</td><td>0.4961</td><td>+0.0000<br/><span class='ci'>[-0.0005, +0.0006]</span></td><td>0.783</td><td>0.00317</td></tr>
+<tr class='hl'><td class='pol'>Router LinUCB</td><td>0.4959</td><td>-0.0001<br/><span class='ci'>[-0.0005, +0.0002]</span></td><td>0.783</td><td>0.00325</td></tr>
+<tr><td class='pol'>Fijo: GPT-4 Turbo</td><td>0.4961</td><td>+0.0000<br/><span class='ci'>[+0.0000, +0.0000]</span></td><td>0.783</td><td>0.00329</td></tr>
+<tr><td class='pol'>Fijo: Yi-34B</td><td>0.4217</td><td>-0.0744<br/><span class='ci'>[-0.0783, -0.0704]</span></td><td>0.649</td><td>0.00019</td></tr>
+<tr><td class='pol'>Fijo: Mixtral 8x7B</td><td>0.3559</td><td>-0.1401<br/><span class='ci'>[-0.1445, -0.1358]</span></td><td>0.548</td><td>0.00013</td></tr>
+<tr><td class='pol'>Fijo: Mistral 7B</td><td>0.1979</td><td>-0.2982<br/><span class='ci'>[-0.3031, -0.2932]</span></td><td>0.302</td><td>0.00005</td></tr>
+    </table>
+    <p class="caption">Media sobre los splits de prueba de 5 semillas (20.263 prompts
+    &uacute;nicos). &Delta;: diferencia pareada contra Better Rules Proxy;
+    IC 95&nbsp;% bootstrap por prompt.</p>
+    <img class="fig" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNDgwIiB2aWV3Qm94PSIwIDAgOTAwIDQ4MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIGRlc2MiPgo8dGl0bGUgaWQ9InRpdGxlIj5Db21wYXJhY2nDs24gZGUgdXRpbGlkYWQgcG9yIHBvbMOtdGljYTwvdGl0bGU+CjxkZXNjIGlkPSJkZXNjIj5VdGlsaWRhZCBtZWRpYSBlIGludGVydmFsb3MgZGUgY29uZmlhbnphIGRlbCBleHBlcmltZW50byByZXByb2R1Y2lkby48L2Rlc2M+CjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IndoaXRlIi8+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iIzExMSI+VXRpbGlkYWQgbWVkaWEgcG9yIHBvbMOtdGljYSDigJQgUm91dGVyQmVuY2ggMC1zaG90PC90ZXh0Pgo8dGV4dCB4PSIxNzgiIHk9Ijg4LjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+T3JhY2xlPC90ZXh0Pgo8cmVjdCB4PSIxOTAiIHk9IjY4LjAiIHdpZHRoPSI2MjAuNDkiIGhlaWdodD0iMjgiIHJ4PSI0IiBmaWxsPSIjMjU2M2ViIiBvcGFjaXR5PSIwLjg4Ii8+CjxsaW5lIHgxPSI4MDcuODIiIHkxPSI4Mi4wIiB4Mj0iODEzLjExIiB5Mj0iODIuMCIgc3Ryb2tlPSIjMTExIiBzdHJva2Utd2lkdGg9IjIiLz4KPGxpbmUgeDE9IjgwNy44MiIgeTE9Ijc3LjAiIHgyPSI4MDcuODIiIHkyPSI4Ny4wIiBzdHJva2U9IiMxMTEiLz4KPGxpbmUgeDE9IjgxMy4xMSIgeTE9Ijc3LjAiIHgyPSI4MTMuMTEiIHkyPSI4Ny4wIiBzdHJva2U9IiMxMTEiLz4KPHRleHQgeD0iODE4LjQ5NDQ0MjE4NzQ5MzMiIHk9Ijg4LjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjU2NDA4NjwvdGV4dD4KPHRleHQgeD0iMTc4IiB5PSIxNDAuMTQyODU3MTQyODU3MTQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+WEdCb29zdDwvdGV4dD4KPHJlY3QgeD0iMTkwIiB5PSIxMjAuMTQyODU3MTQyODU3MTQiIHdpZHRoPSI1NDUuNjkiIGhlaWdodD0iMjgiIHJ4PSI0IiBmaWxsPSIjMjU2M2ViIiBvcGFjaXR5PSIwLjg4Ii8+CjxsaW5lIHgxPSI3MzEuOTkiIHkxPSIxMzQuMTQyODU3MTQyODU3MTQiIHgyPSI3MzkuMzMiIHkyPSIxMzQuMTQyODU3MTQyODU3MTQiIHN0cm9rZT0iIzExMSIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxsaW5lIHgxPSI3MzEuOTkiIHkxPSIxMjkuMTQyODU3MTQyODU3MTQiIHgyPSI3MzEuOTkiIHkyPSIxMzkuMTQyODU3MTQyODU3MTQiIHN0cm9rZT0iIzExMSIvPgo8bGluZSB4MT0iNzM5LjMzIiB5MT0iMTI5LjE0Mjg1NzE0Mjg1NzE0IiB4Mj0iNzM5LjMzIiB5Mj0iMTM5LjE0Mjg1NzE0Mjg1NzE0IiBzdHJva2U9IiMxMTEiLz4KPHRleHQgeD0iNzQzLjY5MDMxNzkzNjgxMzEiIHk9IjE0MC4xNDI4NTcxNDI4NTcxNCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjAuNDk2MDgyPC90ZXh0Pgo8dGV4dCB4PSIxNzgiIHk9IjE5Mi4yODU3MTQyODU3MTQyOCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj5CZXR0ZXIgUnVsZXM8L3RleHQ+CjxyZWN0IHg9IjE5MCIgeT0iMTcyLjI4NTcxNDI4NTcxNDI4IiB3aWR0aD0iNTQ1LjY5IiBoZWlnaHQ9IjI4IiByeD0iNCIgZmlsbD0iIzI1NjNlYiIgb3BhY2l0eT0iMC44OCIvPgo8bGluZSB4MT0iNzMxLjkyIiB5MT0iMTg2LjI4NTcxNDI4NTcxNDI4IiB4Mj0iNzM5LjIyIiB5Mj0iMTg2LjI4NTcxNDI4NTcxNDI4IiBzdHJva2U9IiMxMTEiIHN0cm9rZS13aWR0aD0iMiIvPgo8bGluZSB4MT0iNzMxLjkyIiB5MT0iMTgxLjI4NTcxNDI4NTcxNDI4IiB4Mj0iNzMxLjkyIiB5Mj0iMTkxLjI4NTcxNDI4NTcxNDI4IiBzdHJva2U9IiMxMTEiLz4KPGxpbmUgeDE9IjczOS4yMiIgeTE9IjE4MS4yODU3MTQyODU3MTQyOCIgeDI9IjczOS4yMiIgeTI9IjE5MS4yODU3MTQyODU3MTQyOCIgc3Ryb2tlPSIjMTExIi8+Cjx0ZXh0IHg9Ijc0My42OTAxODU0OTkyNTEyIiB5PSIxOTIuMjg1NzE0Mjg1NzE0MjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjQ5NjA4MjwvdGV4dD4KPHRleHQgeD0iMTc4IiB5PSIyNDQuNDI4NTcxNDI4NTcxNDQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+TGluVUNCPC90ZXh0Pgo8cmVjdCB4PSIxOTAiIHk9IjIyNC40Mjg1NzE0Mjg1NzE0NCIgd2lkdGg9IjU0NS41MyIgaGVpZ2h0PSIyOCIgcng9IjQiIGZpbGw9IiMyNTYzZWIiIG9wYWNpdHk9IjAuODgiLz4KPGxpbmUgeDE9IjczMS44NSIgeTE9IjIzOC40Mjg1NzE0Mjg1NzE0NCIgeDI9IjczOS4xNCIgeTI9IjIzOC40Mjg1NzE0Mjg1NzE0NCIgc3Ryb2tlPSIjMTExIiBzdHJva2Utd2lkdGg9IjIiLz4KPGxpbmUgeDE9IjczMS44NSIgeTE9IjIzMy40Mjg1NzE0Mjg1NzE0NCIgeDI9IjczMS44NSIgeTI9IjI0My40Mjg1NzE0Mjg1NzE0NCIgc3Ryb2tlPSIjMTExIi8+CjxsaW5lIHgxPSI3MzkuMTQiIHkxPSIyMzMuNDI4NTcxNDI4NTcxNDQiIHgyPSI3MzkuMTQiIHkyPSIyNDMuNDI4NTcxNDI4NTcxNDQiIHN0cm9rZT0iIzExMSIvPgo8dGV4dCB4PSI3NDMuNTMzNjcxODk5NDc5MyIgeT0iMjQ0LjQyODU3MTQyODU3MTQ0IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC40OTU5NDA8L3RleHQ+Cjx0ZXh0IHg9IjE3OCIgeT0iMjk2LjU3MTQyODU3MTQyODU2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPllpLTM0QjwvdGV4dD4KPHJlY3QgeD0iMTkwIiB5PSIyNzYuNTcxNDI4NTcxNDI4NTYiIHdpZHRoPSI0NjMuODUiIGhlaWdodD0iMjgiIHJ4PSI0IiBmaWxsPSIjMjU2M2ViIiBvcGFjaXR5PSIwLjg4Ii8+CjxsaW5lIHgxPSI2NDkuNTQiIHkxPSIyOTAuNTcxNDI4NTcxNDI4NTYiIHgyPSI2NTguMDQiIHkyPSIyOTAuNTcxNDI4NTcxNDI4NTYiIHN0cm9rZT0iIzExMSIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxsaW5lIHgxPSI2NDkuNTQiIHkxPSIyODUuNTcxNDI4NTcxNDI4NTYiIHgyPSI2NDkuNTQiIHkyPSIyOTUuNTcxNDI4NTcxNDI4NTYiIHN0cm9rZT0iIzExMSIvPgo8bGluZSB4MT0iNjU4LjA0IiB5MT0iMjg1LjU3MTQyODU3MTQyODU2IiB4Mj0iNjU4LjA0IiB5Mj0iMjk1LjU3MTQyODU3MTQyODU2IiBzdHJva2U9IiMxMTEiLz4KPHRleHQgeD0iNjYxLjg1MDEzNDQ0OTE2NTQiIHk9IjI5Ni41NzE0Mjg1NzE0Mjg1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjAuNDIxNjgyPC90ZXh0Pgo8dGV4dCB4PSIxNzgiIHk9IjM0OC43MTQyODU3MTQyODU3IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPk1peHRyYWw8L3RleHQ+CjxyZWN0IHg9IjE5MCIgeT0iMzI4LjcxNDI4NTcxNDI4NTciIHdpZHRoPSIzOTEuNTMiIGhlaWdodD0iMjgiIHJ4PSI0IiBmaWxsPSIjMjU2M2ViIiBvcGFjaXR5PSIwLjg4Ii8+CjxsaW5lIHgxPSI1NzcuMDAiIHkxPSIzNDIuNzE0Mjg1NzE0Mjg1NyIgeDI9IjU4NS45OCIgeTI9IjM0Mi43MTQyODU3MTQyODU3IiBzdHJva2U9IiMxMTEiIHN0cm9rZS13aWR0aD0iMiIvPgo8bGluZSB4MT0iNTc3LjAwIiB5MT0iMzM3LjcxNDI4NTcxNDI4NTciIHgyPSI1NzcuMDAiIHkyPSIzNDcuNzE0Mjg1NzE0Mjg1NyIgc3Ryb2tlPSIjMTExIi8+CjxsaW5lIHgxPSI1ODUuOTgiIHkxPSIzMzcuNzE0Mjg1NzE0Mjg1NyIgeDI9IjU4NS45OCIgeTI9IjM0Ny43MTQyODU3MTQyODU3IiBzdHJva2U9IiMxMTEiLz4KPHRleHQgeD0iNTg5LjUyOTQ1ODc2MjMxNSIgeT0iMzQ4LjcxNDI4NTcxNDI4NTciIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjM1NTkzNjwvdGV4dD4KPHRleHQgeD0iMTc4IiB5PSI0MDAuODU3MTQyODU3MTQyOSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj5NaXN0cmFsPC90ZXh0Pgo8cmVjdCB4PSIxOTAiIHk9IjM4MC44NTcxNDI4NTcxNDI5IiB3aWR0aD0iMjE3LjY3IiBoZWlnaHQ9IjI4IiByeD0iNCIgZmlsbD0iIzI1NjNlYiIgb3BhY2l0eT0iMC44OCIvPgo8bGluZSB4MT0iNDAzLjY0IiB5MT0iMzk0Ljg1NzE0Mjg1NzE0MjkiIHgyPSI0MTEuODgiIHkyPSIzOTQuODU3MTQyODU3MTQyOSIgc3Ryb2tlPSIjMTExIiBzdHJva2Utd2lkdGg9IjIiLz4KPGxpbmUgeDE9IjQwMy42NCIgeTE9IjM4OS44NTcxNDI4NTcxNDI5IiB4Mj0iNDAzLjY0IiB5Mj0iMzk5Ljg1NzE0Mjg1NzE0MjkiIHN0cm9rZT0iIzExMSIvPgo8bGluZSB4MT0iNDExLjg4IiB5MT0iMzg5Ljg1NzE0Mjg1NzE0MjkiIHgyPSI0MTEuODgiIHkyPSIzOTkuODU3MTQyODU3MTQyOSIgc3Ryb2tlPSIjMTExIi8+Cjx0ZXh0IHg9IjQxNS42NjcxNTMzNTMyODIxIiB5PSI0MDAuODU3MTQyODU3MTQyOSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjAuMTk3ODc5PC90ZXh0Pgo8bGluZSB4MT0iMTkwLjAwIiB5MT0iNTUiIHgyPSIxOTAuMDAiIHkyPSI0MjUiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjx0ZXh0IHg9IjE5MC4wIiB5PSI0NTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC4wPC90ZXh0Pgo8bGluZSB4MT0iMzAwLjAwIiB5MT0iNTUiIHgyPSIzMDAuMDAiIHkyPSI0MjUiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjx0ZXh0IHg9IjMwMC4wIiB5PSI0NTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC4xPC90ZXh0Pgo8bGluZSB4MT0iNDEwLjAwIiB5MT0iNTUiIHgyPSI0MTAuMDAiIHkyPSI0MjUiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjx0ZXh0IHg9IjQxMC4wIiB5PSI0NTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC4yPC90ZXh0Pgo8bGluZSB4MT0iNTIwLjAwIiB5MT0iNTUiIHgyPSI1MjAuMDAiIHkyPSI0MjUiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjx0ZXh0IHg9IjUyMC4wIiB5PSI0NTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC4zPC90ZXh0Pgo8bGluZSB4MT0iNjMwLjAwIiB5MT0iNTUiIHgyPSI2MzAuMDAiIHkyPSI0MjUiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjx0ZXh0IHg9IjYzMC4wIiB5PSI0NTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC40PC90ZXh0Pgo8bGluZSB4MT0iNzQwLjAwIiB5MT0iNTUiIHgyPSI3NDAuMDAiIHkyPSI0MjUiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjx0ZXh0IHg9Ijc0MC4wIiB5PSI0NTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC41PC90ZXh0Pgo8bGluZSB4MT0iODUwLjAwIiB5MT0iNTUiIHgyPSI4NTAuMDAiIHkyPSI0MjUiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjx0ZXh0IHg9Ijg1MC4wIiB5PSI0NTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC42PC90ZXh0Pgo8dGV4dCB4PSI1MjAuMCIgeT0iNDc1IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPlV0aWxpZGFkIG1lZGlhIFU8L3RleHQ+Cjx0ZXh0IHg9Ijg4MiIgeT0iNDcyIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPklDIDk1ICUgcGFyZWFkbzsgbiA9IDIwLjI2MyBwcm9tcHRzIGFncmVnYWRvczwvdGV4dD4KPC9zdmc+Cg==" style="margin-top:3mm"/>
+    <p class="caption">Utilidad media en test con IC 95&nbsp;%. XGBoost y LinUCB
+    <strong>igualan</strong> a la baseline (los IC de las diferencias cruzan cero);
+    solo el Oracle la supera (+0.068).</p>
+  </div></div>
+  <div class="block"><h2>Conclusiones</h2><div class="body">
+    <ul>
+      <li>Con caracter&iacute;sticas pre-inferencia simples, <strong>las
+      pol&iacute;ticas aprendidas igualan pero no superan</strong> a la regla
+      determinista: &Delta; &asymp; 0 con IC 95&nbsp;% que cruza cero.</li>
+      <li>Bajo los pesos elegidos, la baseline converge a &laquo;siempre
+      GPT-4&raquo;; el problema resulta trivial para las se&ntilde;ales
+      disponibles.</li>
+      <li>El Oracle (+0.068 de utilidad, mejor calidad a &asymp;5&times; menos costo)
+      demuestra que <strong>el potencial del ruteo por consulta es real</strong> y
+      queda sin capturar.</li>
+      <li><strong>Limitaciones:</strong> caracter&iacute;sticas simples, latencia ausente,
+      pesos fijos y selecci&oacute;n exploratoria de los cuatro brazos.</li>
+      <li><strong>Trabajo futuro:</strong> embeddings del prompt como contexto,
+      an&aacute;lisis de sensibilidad de pesos y evaluaci&oacute;n en modo sombra.</li>
+    </ul>
+  </div></div>
+</div>
+
+<div class="col">
+  <div class="block"><h2>Frontera calidad-costo</h2><div class="body">
+    <img class="fig" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNTEwIiB2aWV3Qm94PSIwIDAgOTAwIDUxMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIGRlc2MiPgo8dGl0bGUgaWQ9InRpdGxlIj5Gcm9udGVyYSBjYWxpZGFkLWNvc3RvPC90aXRsZT4KPGRlc2MgaWQ9ImRlc2MiPkNhbGlkYWQgbWVkaWEgZnJlbnRlIGEgY29zdG8gbWVkaW8gcG9yIHBvbMOtdGljYS48L2Rlc2M+CjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IndoaXRlIi8+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iIzExMSI+RnJvbnRlcmEgY2FsaWRhZOKAk2Nvc3RvPC90ZXh0Pgo8bGluZSB4MT0iOTAuMDAiIHkxPSI2MCIgeDI9IjkwLjAwIiB5Mj0iNDM1IiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iOTAuMCIgeT0iNDY4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjAuMDAwMDwvdGV4dD4KPGxpbmUgeDE9IjE5OS4yOSIgeTE9IjYwIiB4Mj0iMTk5LjI5IiB5Mj0iNDM1IiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iMTk5LjI4NTcxNDI4NTcxNDI4IiB5PSI0NjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC4wMDA1PC90ZXh0Pgo8bGluZSB4MT0iMzA4LjU3IiB5MT0iNjAiIHgyPSIzMDguNTciIHkyPSI0MzUiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSIzMDguNTcxNDI4NTcxNDI4NTYiIHk9IjQ2OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjAwMTA8L3RleHQ+CjxsaW5lIHgxPSI0MTcuODYiIHkxPSI2MCIgeDI9IjQxNy44NiIgeTI9IjQzNSIgc3Ryb2tlPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjQxNy44NTcxNDI4NTcxNDI4MyIgeT0iNDY4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjAuMDAxNTwvdGV4dD4KPGxpbmUgeDE9IjUyNy4xNCIgeTE9IjYwIiB4Mj0iNTI3LjE0IiB5Mj0iNDM1IiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iNTI3LjE0Mjg1NzE0Mjg1NzEiIHk9IjQ2OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjAwMjA8L3RleHQ+CjxsaW5lIHgxPSI2MzYuNDMiIHkxPSI2MCIgeDI9IjYzNi40MyIgeTI9IjQzNSIgc3Ryb2tlPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjYzNi40Mjg1NzE0Mjg1NzE0IiB5PSI0NjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC4wMDI1PC90ZXh0Pgo8bGluZSB4MT0iNzQ1LjcxIiB5MT0iNjAiIHgyPSI3NDUuNzEiIHkyPSI0MzUiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI3NDUuNzE0Mjg1NzE0Mjg1NyIgeT0iNDY4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjAuMDAzMDwvdGV4dD4KPGxpbmUgeDE9Ijg1NS4wMCIgeTE9IjYwIiB4Mj0iODU1LjAwIiB5Mj0iNDM1IiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iODU1LjAiIHk9IjQ2OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjAwMzU8L3RleHQ+CjxsaW5lIHgxPSI5MCIgeTE9IjQwNi4xNSIgeDI9Ijg1NSIgeTI9IjQwNi4xNSIgc3Ryb2tlPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjgwIiB5PSI0MTAuMTUzODQ2MTUzODQ2MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjM8L3RleHQ+CjxsaW5lIHgxPSI5MCIgeTE9IjM0OC40NiIgeDI9Ijg1NSIgeTI9IjM0OC40NiIgc3Ryb2tlPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjgwIiB5PSIzNTIuNDYxNTM4NDYxNTM4NDUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC40PC90ZXh0Pgo8bGluZSB4MT0iOTAiIHkxPSIyOTAuNzciIHgyPSI4NTUiIHkyPSIyOTAuNzciIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI4MCIgeT0iMjk0Ljc2OTIzMDc2OTIzMDgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC41PC90ZXh0Pgo8bGluZSB4MT0iOTAiIHkxPSIyMzMuMDgiIHgyPSI4NTUiIHkyPSIyMzMuMDgiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI4MCIgeT0iMjM3LjA3NjkyMzA3NjkyMzEiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MC42PC90ZXh0Pgo8bGluZSB4MT0iOTAiIHkxPSIxNzUuMzgiIHgyPSI4NTUiIHkyPSIxNzUuMzgiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI4MCIgeT0iMTc5LjM4NDYxNTM4NDYxNTQyIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjAuNzwvdGV4dD4KPGxpbmUgeDE9IjkwIiB5MT0iMTE3LjY5IiB4Mj0iODU1IiB5Mj0iMTE3LjY5IiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iODAiIHk9IjEyMS42OTIzMDc2OTIzMDc2OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjg8L3RleHQ+CjxsaW5lIHgxPSI5MCIgeTE9IjYwLjAwIiB4Mj0iODU1IiB5Mj0iNjAuMDAiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI4MCIgeT0iNjQuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjk8L3RleHQ+CjxjaXJjbGUgY3g9IjIyMi41OSIgY3k9Ijc2LjQ2IiByPSI3IiBmaWxsPSIjZGMyNjI2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjMyLjU4NzEwNjg4MDYxMDMyIiB5PSI2Ni40NTk0MzA5Nzk5Nzg5OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPk9yYWNsZTwvdGV4dD4KPGNpcmNsZSBjeD0iNzgyLjI3IiBjeT0iMTI3LjY0IiByPSI3IiBmaWxsPSIjZGMyNjI2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNzkyLjI2OTgwOTgxNjAzNiIgeT0iMTQ1LjY0MzgzNTYxNjQzODM0IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+WEdCb29zdDwvdGV4dD4KPGNpcmNsZSBjeD0iODA5LjA4IiBjeT0iMTI3LjM2IiByPSI3IiBmaWxsPSIjZGMyNjI2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iODE5LjA3Njg0NTQwMTE2MDkiIHk9IjExNy4zNTcyMTgxMjQzNDE0MSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPkJldHRlciBSdWxlczwvdGV4dD4KPGNpcmNsZSBjeD0iODAxLjM3IiBjeT0iMTI3LjYwIiByPSI3IiBmaWxsPSIjZGMyNjI2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iODExLjM2OTcwNjIzODczMTIiIHk9IjE0NS41OTg1MjQ3NjI5MDgzNyIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPkxpblVDQjwvdGV4dD4KPGNpcmNsZSBjeD0iODA5LjA4IiBjeT0iMTI3LjM2IiByPSI3IiBmaWxsPSIjZGMyNjI2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iODE5LjA3Njg0NTQwMTE2MDkiIHk9IjExNy4zNTcyMTgxMjQzNDE0MSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPkdQVC00PC90ZXh0Pgo8Y2lyY2xlIGN4PSIxMzAuNjciIGN5PSIyMDQuNjQiIHI9IjciIGZpbGw9IiNkYzI2MjYiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxNDAuNjY4MTA1MDE3NjA0NiIgeT0iMjIyLjYzODU2NjkxMjUzOTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj5ZaS0zNEI8L3RleHQ+CjxjaXJjbGUgY3g9IjExOS40NCIgY3k9IjI2My4xNSIgcj0iNyIgZmlsbD0iI2RjMjYyNiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEyOS40Mzg1MDc4MzU2MDI0OCIgeT0iMjUzLjE0NzUyMzcwOTE2NzU2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+TWl4dHJhbDwvdGV4dD4KPGNpcmNsZSBjeD0iMTAwLjAwIiBjeT0iNDA1LjE2IiByPSI3IiBmaWxsPSIjZGMyNjI2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMTEwLjAwMjYxNzQyNDY1NzQ5IiB5PSI0MjMuMTU4MDYxMTE2OTY1MjYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj5NaXN0cmFsPC90ZXh0Pgo8dGV4dCB4PSI0NzIuNSIgeT0iNTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPkNvc3RvIG1lZGlvIHBvciBzb2xpY2l0dWQgKFVTRCk8L3RleHQ+Cjx0ZXh0IHg9IjIwIiB5PSIyNDcuNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgMjAgMjQ3LjUpIj5DYWxpZGFkIG1lZGlhPC90ZXh0Pgo8dGV4dCB4PSI4ODIiIHk9IjUwMiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj5WYWxvcmVzIHByb21lZGlhZG9zIGVuIGNpbmNvIHNlbWlsbGFzPC90ZXh0Pgo8L3N2Zz4K"/>
+    <p class="caption">El Oracle logra <strong>m&aacute;s calidad (0.87 vs 0.78) a
+    &asymp;5&times; menos costo</strong> que &laquo;siempre GPT-4&raquo;: el margen
+    del ruteo por consulta existe, pero exige mejores se&ntilde;ales.</p>
+  </div></div>
+  <div class="block"><h2>LinUCB: regret acumulado</h2><div class="body">
+    <img class="fig" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNDgwIiB2aWV3Qm94PSIwIDAgOTAwIDQ4MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIGRlc2MiPgo8dGl0bGUgaWQ9InRpdGxlIj5SZWdyZXQgYWN1bXVsYWRvIGRlIExpblVDQjwvdGl0bGU+CjxkZXNjIGlkPSJkZXNjIj5DdXJ2YSBwcm9tZWRpbyBkZSByZWdyZXQgYWN1bXVsYWRvIGRlIExpblVDQiBlbiBjaW5jbyBzZW1pbGxhcy48L2Rlc2M+CjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IndoaXRlIi8+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iIzExMSI+UmVncmV0IGFjdW11bGFkbyBkZSBMaW5VQ0I8L3RleHQ+CjxsaW5lIHgxPSI4NS4wMCIgeTE9IjYwIiB4Mj0iODUuMDAiIHkyPSI0MTAiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI4NS4wIiB5PSI0NDIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MDwvdGV4dD4KPGxpbmUgeDE9IjI0MC4wMCIgeTE9IjYwIiB4Mj0iMjQwLjAwIiB5Mj0iNDEwIiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iMjQwLjAiIHk9IjQ0MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj41LjEwOTwvdGV4dD4KPGxpbmUgeDE9IjM5NS4wMCIgeTE9IjYwIiB4Mj0iMzk1LjAwIiB5Mj0iNDEwIiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iMzk1LjAiIHk9IjQ0MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4xMC4yMTg8L3RleHQ+CjxsaW5lIHgxPSI1NTAuMDAiIHkxPSI2MCIgeDI9IjU1MC4wMCIgeTI9IjQxMCIgc3Ryb2tlPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjU1MC4wIiB5PSI0NDIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MTUuMzI4PC90ZXh0Pgo8bGluZSB4MT0iNzA1LjAwIiB5MT0iNjAiIHgyPSI3MDUuMDAiIHkyPSI0MTAiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI3MDUuMCIgeT0iNDQyIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjIwLjQzNzwvdGV4dD4KPGxpbmUgeDE9Ijg2MC4wMCIgeTE9IjYwIiB4Mj0iODYwLjAwIiB5Mj0iNDEwIiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iODYwLjAiIHk9IjQ0MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4yNS41NDc8L3RleHQ+CjxsaW5lIHgxPSI4NSIgeTE9IjQxMC4wMCIgeDI9Ijg2MCIgeTI9IjQxMC4wMCIgc3Ryb2tlPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9Ijc1IiB5PSI0MTQuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4wLjA8L3RleHQ+CjxsaW5lIHgxPSI4NSIgeTE9IjM0MC4wMCIgeDI9Ijg2MCIgeTI9IjM0MC4wMCIgc3Ryb2tlPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9Ijc1IiB5PSIzNDQuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj4zNzkuMzwvdGV4dD4KPGxpbmUgeDE9Ijg1IiB5MT0iMjcwLjAwIiB4Mj0iODYwIiB5Mj0iMjcwLjAwIiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iNzUiIHk9IjI3NC4wIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPjc1OC42PC90ZXh0Pgo8bGluZSB4MT0iODUiIHkxPSIyMDAuMDAiIHgyPSI4NjAiIHkyPSIyMDAuMDAiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI3NSIgeT0iMjA0LjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MTEzNy44PC90ZXh0Pgo8bGluZSB4MT0iODUiIHkxPSIxMzAuMDAiIHgyPSI4NjAiIHkyPSIxMzAuMDAiIHN0cm9rZT0iI2U1ZTdlYiIvPgo8dGV4dCB4PSI3NSIgeT0iMTM0LjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MTUxNy4xPC90ZXh0Pgo8bGluZSB4MT0iODUiIHkxPSI2MC4wMCIgeDI9Ijg2MCIgeTI9IjYwLjAwIiBzdHJva2U9IiNlNWU3ZWIiLz4KPHRleHQgeD0iNzUiIHk9IjY0LjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzExMSI+MTg5Ni40PC90ZXh0Pgo8cG9seWxpbmUgcG9pbnRzPSI4NS4wMCw0MTAuMDAgMTAwLjgxLDQwMC41NSAxMTYuNjQsMzkyLjE3IDEzMi40NSwzODQuOTEgMTQ4LjI1LDM3OC4yMSAxNjQuMDksMzcxLjQ4IDE3OS45MCwzNjQuNTMgMTk1LjcwLDM1OC4wOCAyMTEuNTQsMzUxLjM5IDIyNy4zNCwzNDQuMzAgMjQzLjE1LDMzNy41MiAyNTguOTksMzMwLjgyIDI3NC43OSwzMjQuNjQgMjkwLjYzLDMxNy44NSAzMDYuNDMsMzExLjMzIDMyMi4yNCwzMDMuOTAgMzM4LjA3LDI5Ny4xNSAzNTMuODgsMjg5Ljk0IDM2OS42OSwyODIuNzkgMzg1LjUyLDI3Ni4yOCA0MDEuMzMsMjY5LjQ5IDQxNy4xMywyNjIuNzQgNDMyLjk3LDI1NS45MiA0NDguNzgsMjQ5Ljc4IDQ2NC41OCwyNDIuODcgNDgwLjQyLDIzNS42OSA0OTYuMjIsMjI4Ljg4IDUxMi4wMywyMjIuMjMgNTI3Ljg3LDIxNS4yMiA1NDMuNjcsMjA4LjU4IDU1OS40OCwyMDEuOTggNTc1LjMxLDE5NS4yNiA1OTEuMTIsMTg4Ljc4IDYwNi45MywxODEuODQgNjIyLjc2LDE3NS4yMyA2MzguNTcsMTY5LjA1IDY1NC4zNywxNjIuNTEgNjcwLjIxLDE1Ni4wMCA2ODYuMDEsMTQ5LjczIDcwMS44NSwxNDIuOTQgNzE3LjY2LDEzNi40OSA3MzMuNDYsMTI5LjYzIDc0OS4zMCwxMjIuNDQgNzY1LjEwLDExNS44NyA3ODAuOTEsMTA4LjY0IDc5Ni43NSwxMDIuMjQgODEyLjU1LDk1LjUwIDgyOC4zNiw4OS40NiA4NDQuMTksODMuMzAgODYwLjAwLDc2LjY3IiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzNhZWQiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8dGV4dCB4PSI0NzIuNSIgeT0iNDcyIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiIGZpbGw9IiMxMTEiPlBhc28gcHJlcXVlbnRpYWw8L3RleHQ+Cjx0ZXh0IHg9IjIwIiB5PSIyMzUuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgMjAgMjM1LjApIj5SZWdyZXQgYWN1bXVsYWRvPC90ZXh0Pgo8dGV4dCB4PSI4ODIiIHk9IjQ3MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXdlaWdodD0ibm9ybWFsIiBmaWxsPSIjMTExIj5Qcm9tZWRpbyBkZSBjaW5jbyBzZW1pbGxhczsgNTAgcHVudG9zIG11ZXN0cmVhZG9zPC90ZXh0Pgo8L3N2Zz4K"/>
+    <p class="caption">Regret acumulado durante el replay prequential (5 semillas):
+    crecimiento estable y reproducible, sin exploraci&oacute;n
+    catastr&oacute;fica.</p>
+  </div></div>
+  <div class="block"><h2>Referencias</h2><div class="body">
+    <ol class="refs">
+      <li>Q. J. Hu <em>et al.</em>, &laquo;RouterBench: A Benchmark for Multi-LLM
+      Routing Systems&raquo;, arXiv:2403.12031, 2024. DOI dataset:
+      10.57967/hf/1996.</li>
+      <li>L. Li, W. Chu, J. Langford y R. E. Schapire, &laquo;A Contextual-Bandit
+      Approach to Personalized News Article Recommendation&raquo;, WWW, 2010.</li>
+      <li>T. Chen y C. Guestrin, &laquo;XGBoost: A Scalable Tree Boosting
+      System&raquo;, KDD, 2016.</li>
+      <li>C&oacute;digo del estudio:
+      github.com/FitoFritzG/better-router-adaptive-research (MIT).</li>
+    </ol>
+  </div></div>
+</div>
+
+</div>
+<div class="footer"><strong>Reproducibilidad:</strong> dataset fijado por SHA-256 &middot;
+5 semillas bloqueadas (42, 123, 2026, 31415, 271828) &middot; partici&oacute;n agrupada por
+prompt &middot; hiperpar&aacute;metros elegidos solo en validaci&oacute;n &middot; tablas y
+figuras generadas desde artefactos &middot; c&oacute;digo MIT con CI, mypy estricto y
+cobertura &ge; 85 %</div>
+</body></html>
