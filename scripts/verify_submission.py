@@ -94,9 +94,7 @@ def verify(root: Path, poster: Path) -> dict[str, object]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Verify the final academic submission tree."
-    )
+    parser = argparse.ArgumentParser(description="Verify the final academic submission tree.")
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument(
         "--poster",
