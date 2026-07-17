@@ -46,7 +46,13 @@ class CascadeError(ValueError):
 
 @dataclass(frozen=True, slots=True)
 class ActionSpace:
-    """Single-arm actions plus escalation pairs ``(first, second)`` by index."""
+    """Single-arm actions plus escalation pairs ``(first, second)`` by index.
+
+    The first ``len(arms)`` actions route the prompt to one arm; every pair
+    ``(i, j)`` appends the cascade "call ``arms[i]``, escalate to ``arms[j]``
+    on rejection". Pairs only escalate towards strictly more expensive arms
+    (by mean training cost), so the space stays small and interpretable.
+    """
 
     arms: tuple[str, ...]
     pairs: tuple[tuple[int, int], ...]
@@ -65,7 +71,12 @@ class ActionSpace:
 
 
 def build_action_space(arms: tuple[str, ...], mean_train_cost: _FloatArray) -> ActionSpace:
-    """Build an action space using only train-split mean costs."""
+    """Build the action space; escalation targets must cost strictly more.
+
+    ``mean_train_cost`` holds the mean training-split cost of every arm in
+    the same order as ``arms``; only training aggregates are used, so the
+    action space itself cannot leak evaluation information.
+    """
 
     if not arms or len(arms) != len(set(arms)):
         raise CascadeError("arms must be non-empty and unique")
@@ -92,6 +103,8 @@ class ActionOutcomes:
     escalated: _BoolArray
 
     def restrict(self, count: int) -> ActionOutcomes:
+        """Return a view limited to the first ``count`` actions (arms first)."""
+
         if not 0 < count <= len(self.labels):
             raise CascadeError(f"cannot restrict {len(self.labels)} actions to {count}")
         return ActionOutcomes(
@@ -131,7 +144,13 @@ def compute_action_outcomes(
     weights: RewardWeights,
     stats: NormalizationStats,
 ) -> ActionOutcomes:
-    """Compute outcomes using an explicitly ideal simulated verifier."""
+    """Compute quality, cost, success, and utility for every action.
+
+    All inputs are ``(n_prompts, n_arms)`` wide matrices aligned with
+    ``space.arms``. Single-arm actions reproduce the Step 5 utility exactly;
+    cascade actions apply the simulated-verifier escalation rule documented
+    in the module docstring.
+    """
 
     n_arms = len(space.arms)
     for name, matrix in (
@@ -144,6 +163,7 @@ def compute_action_outcomes(
             raise CascadeError(f"{name} must be a (n_prompts, n_arms) matrix")
 
     rejected = (quality == 0.0) | ~success
+
     action_quality = [quality[:, index] for index in range(n_arms)]
     action_cost = [cost_usd[:, index] for index in range(n_arms)]
     action_latency = [latency_ms[:, index] for index in range(n_arms)]
@@ -163,6 +183,7 @@ def compute_action_outcomes(
     latency_matrix = np.column_stack(action_latency)
     success_matrix = np.column_stack(action_success).astype(np.bool_)
     escalated_matrix = np.column_stack(action_escalated).astype(np.bool_)
+
     utility_matrix = (
         weights.quality * quality_matrix
         - weights.cost * _normalized_term(cost_matrix, stats.cost_usd, "cost_usd")
@@ -182,7 +203,13 @@ def compute_action_outcomes(
 def cascade_selection_frame(
     outcomes: ActionOutcomes, prompt_ids: list[str], action_indices: list[int]
 ) -> pd.DataFrame:
-    """Materialize one selected action per prompt for normal evaluation."""
+    """Materialize one selected action per prompt as an auditable selection.
+
+    The frame carries the same outcome columns the reference policies expose,
+    so ``evaluate_selection`` and the bootstrap treat cascade policies exactly
+    like single-arm ones. ``model_id`` holds the action label, which for
+    cascades reads ``first>second``.
+    """
 
     if len(prompt_ids) != len(action_indices) or not prompt_ids:
         raise CascadeError("prompt_ids and action_indices must be non-empty and aligned")
