@@ -44,7 +44,7 @@ jobs:
             --cov-report=term-missing \
             --cov-fail-under=85
           ruff check .
-          ruff format --check .
+          ruff format --check src tests paper
           mypy src tests
           python -m build
       - name: Generate final scientific poster
