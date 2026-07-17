@@ -23,7 +23,7 @@ La comparación incluye además:
 - brazos fijos como referencias;
 - Oracle offline como cota superior no desplegable.
 
-`EvoCascade-Ideal` se conserva como estudio exploratorio adicional. No es necesario ejecutarlo para revisar el cumplimiento mínimo de la tarea y no debe interpretarse como un sistema desplegable, porque utiliza un verificador ideal simulado.
+La evaluación obligatoria no requiere ejecutar EvoCascade, una interfaz gráfica ni funciones de bonus.
 
 ## Requisitos
 
@@ -122,31 +122,20 @@ Para permitir una revisión sin redistribuir el dataset de terceros, el reposito
 - documentación metodológica;
 - hashes y procedencia del dataset.
 
-Los resultados principales se encuentran en:
+Los resultados obligatorios se encuentran en:
 
 ```text
 artifacts/public/step7-real/
-```
-
-La extensión adicional y sus limitaciones están documentadas en:
-
-```text
-artifacts/public/evocascade-ideal-verifier/
-LATEST_STUDY.md
 ```
 
 ## Restricción del dataset
 
 El dataset original y los datos procesados fila por fila no se incluyen en el repositorio público porque la tarjeta de RouterBench no declara una licencia explícita de redistribución. Los scripts permiten regenerarlos desde la fuente oficial.
 
-## Póster y paquete final
+## Póster
 
-- Póster científico PDF: `paper/poster/poster_better_router.pdf`.
-- ZIP de entrega: `delivery/Better_Router_Adaptive_Entrega_Final.zip`.
-- Checksums SHA-256: `delivery/SHA256SUMS.txt`.
-
-El ZIP contiene el código, configuraciones, pruebas, documentación, resultados agregados y póster. No contiene entornos virtuales, cachés, secretos, pickles ni datos restringidos.
+El póster científico se entrega como archivo PDF separado. Este repositorio no genera, modifica ni empaqueta nuevamente ese PDF.
 
 ## Bonus
 
-El proyecto incorpora como iniciativas adicionales el análisis de hiperparámetros, la evaluación multi-semilla, el bootstrap pareado y EvoCascade-Ideal optimizado mediante sep-CMA-ES. Esta última extensión está identificada como una cota experimental dependiente de un verificador ideal.
+El bonus no forma parte de esta versión cerrada. Se desarrollará después en una rama nueva y separada.
