@@ -80,6 +80,9 @@ jobs:
       - name: Ruff format — tests
         if: always()
         run: ruff format --check tests
+      - name: Ruff format — scripts
+        if: always()
+        run: ruff format --check scripts
       - name: Ruff format — paper
         if: always()
         run: ruff format --check paper
@@ -92,6 +95,9 @@ jobs:
       - name: Build package
         if: always()
         run: python -m build
+      - name: Professor submission structure
+        if: always()
+        run: python scripts/verify_professor_submission.py
       - name: CLI smoke tests
         if: always()
         run: |
