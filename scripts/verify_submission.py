@@ -25,7 +25,14 @@ REQUIRED_PATHS = (
     "docs/ASSIGNMENT_READINESS.md",
 )
 
-FORBIDDEN_PARTS = {".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+FORBIDDEN_PARTS = {
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+}
 FORBIDDEN_NAMES = {".env", ".env.local", "secrets.json", "credentials.json"}
 FORBIDDEN_SUFFIXES = {".pkl", ".pickle", ".key", ".pem"}
 
@@ -39,7 +46,9 @@ def sha256(path: Path) -> str:
 
 
 def verify(root: Path, poster: Path) -> dict[str, object]:
-    missing = [relative for relative in REQUIRED_PATHS if not (root / relative).is_file()]
+    missing = [
+        relative for relative in REQUIRED_PATHS if not (root / relative).is_file()
+    ]
     forbidden: list[str] = []
     for path in root.rglob("*"):
         if ".git" in path.parts or not path.is_file():
@@ -49,7 +58,10 @@ def verify(root: Path, poster: Path) -> dict[str, object]:
             forbidden.append(str(relative))
         if path.name in FORBIDDEN_NAMES or path.suffix.lower() in FORBIDDEN_SUFFIXES:
             forbidden.append(str(relative))
-        if relative.parts[:2] in {("data", "raw"), ("data", "interim")} and path.name != ".gitkeep":
+        if (
+            relative.parts[:2] in {("data", "raw"), ("data", "interim")}
+            and path.name != ".gitkeep"
+        ):
             forbidden.append(str(relative))
         if relative.parts[:2] == ("data", "processed") and path.name != ".gitkeep":
             forbidden.append(str(relative))
@@ -59,11 +71,15 @@ def verify(root: Path, poster: Path) -> dict[str, object]:
         with poster.open("rb") as handle:
             poster_ok = handle.read(5) == b"%PDF-"
 
-    routers_text = (root / "src/better_router_adaptive/routers.py").read_text(encoding="utf-8")
+    routers_text = (root / "src/better_router_adaptive/routers.py").read_text(
+        encoding="utf-8"
+    )
     algorithms_ok = "XGBoostRouter" in routers_text and "LinUCBRouter" in routers_text
 
     report = {
-        "status": "PASS" if not missing and not forbidden and poster_ok and algorithms_ok else "FAIL",
+        "status": "PASS"
+        if not missing and not forbidden and poster_ok and algorithms_ok
+        else "FAIL",
         "missing": missing,
         "forbidden": sorted(set(forbidden)),
         "poster": str(poster.relative_to(root)),
@@ -78,7 +94,9 @@ def verify(root: Path, poster: Path) -> dict[str, object]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Verify the final academic submission tree.")
+    parser = argparse.ArgumentParser(
+        description="Verify the final academic submission tree."
+    )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument(
         "--poster",
