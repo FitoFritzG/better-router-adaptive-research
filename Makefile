@@ -1,4 +1,4 @@
-.PHONY: install test lint format typecheck build smoke verify
+.PHONY: install test lint format typecheck build smoke verify professor-check
 
 install:
 	python -m pip install -e ".[dev]"
@@ -25,3 +25,6 @@ smoke:
 	python -m better_router_adaptive.evaluate --help
 
 verify: test lint format typecheck build smoke
+
+professor-check: verify
+	python scripts/verify_professor_submission.py
