@@ -110,7 +110,7 @@ python -m better_router_adaptive.evaluate --help
 
 Las instrucciones completas de descarga y reproducción están en `README.md`, `data/README.md` y `docs/REPRODUCIBILITY.md`.
 
-## Evidencia ya versionada
+## Evidencia versionada
 
 Para permitir una revisión sin redistribuir el dataset de terceros, el repositorio incluye:
 
@@ -128,10 +128,25 @@ Los resultados principales se encuentran en:
 artifacts/public/step7-real/
 ```
 
+La extensión adicional y sus limitaciones están documentadas en:
+
+```text
+artifacts/public/evocascade-ideal-verifier/
+LATEST_STUDY.md
+```
+
 ## Restricción del dataset
 
 El dataset original y los datos procesados fila por fila no se incluyen en el repositorio público porque la tarjeta de RouterBench no declara una licencia explícita de redistribución. Los scripts permiten regenerarlos desde la fuente oficial.
 
-## Póster
+## Póster y paquete final
 
-El póster científico en PDF se entrega como archivo separado. Este repositorio se concentra en el código fuente, los archivos de ejecución, las pruebas, la metodología y los resultados agregados necesarios para evaluar la solución.
+- Póster científico PDF: `paper/poster/poster_better_router.pdf`.
+- ZIP de entrega: `delivery/Better_Router_Adaptive_Entrega_Final.zip`.
+- Checksums SHA-256: `delivery/SHA256SUMS.txt`.
+
+El ZIP contiene el código, configuraciones, pruebas, documentación, resultados agregados y póster. No contiene entornos virtuales, cachés, secretos, pickles ni datos restringidos.
+
+## Bonus
+
+El proyecto incorpora como iniciativas adicionales el análisis de hiperparámetros, la evaluación multi-semilla, el bootstrap pareado y EvoCascade-Ideal optimizado mediante sep-CMA-ES. Esta última extensión está identificada como una cota experimental dependiente de un verificador ideal.
