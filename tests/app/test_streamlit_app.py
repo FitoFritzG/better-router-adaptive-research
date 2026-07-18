@@ -19,9 +19,7 @@ def test_streamlit_app_runs_as_a_script_from_repository_root() -> None:
         check=False,
     )
 
-    assert result.returncode == 0, (
-        f"stdout:\n{result.stdout}\n\nstderr:\n{result.stderr}"
-    )
+    assert result.returncode == 0, f"stdout:\n{result.stdout}\n\nstderr:\n{result.stderr}"
 
 
 def test_streamlit_app_renders_core_sections() -> None:
