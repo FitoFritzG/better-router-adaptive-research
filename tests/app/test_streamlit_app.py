@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_streamlit_app_runs_as_a_script_from_repository_root() -> None:
+    pytest.importorskip("streamlit")
     result = subprocess.run(
         [sys.executable, "app/streamlit_app.py"],
         cwd=ROOT,
