@@ -38,6 +38,10 @@ FORBIDDEN_TRACKED_PREFIXES = (
     "data/interim/",
     "data/processed/",
     "__pycache__/",
+    ".superpowers/",
+    "docs/superpowers/",
+    "docs/reviews/",
+    "docs/evidence/",
 )
 
 FORBIDDEN_TRACKED_NAMES = {
@@ -45,6 +49,7 @@ FORBIDDEN_TRACKED_NAMES = {
     ".env.local",
     "secrets.json",
     "credentials.json",
+    ".github/workflows/finalize-academic-delivery.yml",
 }
 
 ALLOWED_EMPTY_DIRECTORY_MARKERS = {
@@ -118,7 +123,7 @@ def main() -> int:
 
     print("[PASS] Estructura obligatoria presente.")
     print(f"[PASS] {len(tracked)} archivos versionados revisados.")
-    print("[PASS] No se detectaron datasets restringidos, entornos o secretos versionados.")
+    print("[PASS] No se detectaron datasets restringidos, secretos ni artefactos internos.")
     print("[PASS] El código obligatorio está listo para la evaluación técnica.")
     return 0
 
