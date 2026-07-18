@@ -1,0 +1,64 @@
+BETTER ROUTER ADAPTIVE — BONUS STREAMLIT VERIFICATION
+====================================================
+
+Scope
+-----
+Optional Streamlit dashboard and synthetic routing simulator.
+The mandatory academic submission remains independently evaluable.
+
+Pre-record implementation gate
+------------------------------
+GitHub Actions run: 29622227856
+Validated implementation head: cdb7de34430e3ae84e99889cfae3861c6d6d6c7e
+
+Jobs:
+- quality (Python 3.12): PASS
+- quality (Python 3.13): PASS
+- bonus-app (Python 3.12 + Streamlit): PASS
+
+Mandatory submission controls:
+- configuration and data unit tests: PASS
+- routing and evaluation unit tests: PASS
+- Step 3 integration: PASS
+- Step 4 integration: PASS
+- Step 5 integration: PASS
+- Step 6 integration: PASS
+- Step 7 integration: PASS
+- branch coverage >= 85%: PASS
+- Ruff lint: PASS
+- Ruff format: PASS
+- mandatory mypy scope: PASS
+- wheel/sdist build: PASS
+- professor submission verifier: PASS
+- seven CLI smoke tests: PASS
+
+Bonus controls:
+- tests/app/test_data_access.py: PASS
+- tests/app/test_simulator.py: PASS
+- tests/app/test_streamlit_app.py: PASS
+- Streamlit AppTest startup: PASS
+- Ruff lint for app/tests: PASS
+- Ruff format for app/tests: PASS
+- mypy for src/tests/app: PASS
+
+Security and data boundary:
+- no API keys required
+- no HTTP requests
+- no provider SDKs
+- no st.secrets usage
+- no prompt persistence
+- no RouterBench row-level data
+- real results loaded only from aggregate public CSV files
+- simulator trained only with the original synthetic fixture
+
+Reproducibility update after the implementation gate:
+- Streamlit pinned to 1.59.2
+- design, plan, review, and evidence files added
+- these record-only/dependency changes require a final exact-commit CI run before merge
+
+Deployment coordinates after merge:
+- Repository: FitoFritzG/better-router-adaptive-research
+- Branch: main
+- Main file path: app/streamlit_app.py
+- Python: 3.12
+- Secrets: none

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "better-router-adaptive"
-version = "0.3.0"
+version = "0.4.0"
 description = "Reproducible research on quality-cost-latency-aware multi-LLM routing."
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
@@ -14,7 +14,7 @@ authors = [
   { name = "Benjamín Cerda" },
   { name = "Felipe Friz" },
 ]
-keywords = ["llm-routing", "contextual-bandit", "xgboost", "cascades", "cma-es", "research", "better-router"]
+keywords = ["llm-routing", "contextual-bandit", "xgboost", "cascades", "cma-es", "streamlit", "dashboard", "research", "better-router"]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Intended Audience :: Science/Research",
@@ -36,7 +36,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-app = ["streamlit>=1.37,<2"]
+app = ["streamlit==1.59.2"]
 dev = [
   "hatchling>=1.25,<2",
   "build==1.5.1",
@@ -59,6 +59,8 @@ include = [
   "/config",
   "/docs",
   "/paper",
+  "/app",
+  "/.streamlit",
   "/artifacts/examples",
   "/artifacts/public",
   "/README.md",
@@ -88,5 +90,5 @@ select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
-files = ["src", "tests"]
+files = ["src", "tests", "app"]
 warn_unused_configs = true

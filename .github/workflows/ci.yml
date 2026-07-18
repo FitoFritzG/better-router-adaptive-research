@@ -89,9 +89,9 @@ jobs:
       - name: Ruff format — complete repository
         if: always()
         run: ruff format --check .
-      - name: Strict typing
+      - name: Strict typing — mandatory submission
         if: always()
-        run: mypy src tests
+        run: mypy src tests --exclude '^tests/app/'
       - name: Build package
         if: always()
         run: python -m build
@@ -108,3 +108,28 @@ jobs:
           python -m better_router_adaptive.baselines --help
           python -m better_router_adaptive.learn --help
           python -m better_router_adaptive.evaluate --help
+
+  bonus-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dashboard dependencies
+        run: |
+          python -m pip install --upgrade pip --quiet
+          python -m pip install --quiet -e ".[dev,app]"
+      - name: Public result loading tests
+        run: python -m pytest -q tests/app/test_data_access.py --tb=short
+      - name: Synthetic simulator tests
+        run: python -m pytest -q tests/app/test_simulator.py --tb=short
+      - name: Streamlit smoke test
+        run: python -m pytest -q tests/app/test_streamlit_app.py --tb=short
+      - name: Streamlit bonus lint
+        run: ruff check app tests/app
+      - name: Streamlit bonus format
+        run: ruff format --check app tests/app
+      - name: Streamlit bonus typing
+        run: mypy src tests app

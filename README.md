@@ -4,6 +4,7 @@
 [![Python](https://img.shields.io/badge/Python-3.12%20%7C%203.13-blue)](pyproject.toml)
 [![Licencia MIT](https://img.shields.io/badge/c%C3%B3digo-MIT-green)](LICENSE)
 [![Estado](https://img.shields.io/badge/entrega-obligatoria%20lista-success)](ENTREGA.md)
+[![Bonus](https://img.shields.io/badge/bonus-Streamlit-blueviolet)](docs/BONUS_STREAMLIT.md)
 
 Investigación reproducible sobre **enrutamiento adaptativo de modelos de lenguaje**. El proyecto estudia si una política aprendida puede seleccionar, para cada consulta, el modelo que maximiza una utilidad conjunta de calidad, costo, latencia y confiabilidad.
 
@@ -15,9 +16,9 @@ Investigación reproducible sobre **enrutamiento adaptativo de modelos de lengua
 
 Universidad del Bío-Bío — Ingeniería Civil en Automatización.
 
-## Estado de la entrega
+## Estado del proyecto
 
-La **entrega obligatoria está cerrada y lista para evaluación técnica**.
+La **entrega obligatoria está cerrada y lista para evaluación técnica**. El dashboard Streamlit se desarrolla como bonus opcional y no modifica los criterios de cumplimiento de XGBoost y LinUCB.
 
 - Guía del profesor: [`EVALUACION_PROFESOR.md`](EVALUACION_PROFESOR.md).
 - Resumen de entrega: [`ENTREGA.md`](ENTREGA.md).
@@ -27,7 +28,28 @@ La **entrega obligatoria está cerrada y lista para evaluación técnica**.
 - Metodología y análisis: [`docs/`](docs/).
 - Póster científico: se entrega como archivo PDF separado.
 
-El bonus se desarrollará posteriormente en una rama nueva y no altera esta versión evaluable.
+## Bonus: dashboard Streamlit
+
+La aplicación opcional incluye:
+
+1. resumen visual del problema y la metodología;
+2. resultados interactivos con filtros e intervalos de confianza;
+3. comparación entre semillas;
+4. simulador académico de XGBoost y LinUCB;
+5. ejecución sin API keys ni llamadas a proveedores externos.
+
+**Enlace público:** se añadirá después de autorizar el despliegue en Streamlit Community Cloud.
+
+Ejecución local:
+
+```bash
+python -m pip install -e ".[app]"
+streamlit run app/streamlit_app.py
+```
+
+El simulador usa las clases reales del proyecto, pero se entrena con el fixture original y sintético `tests/fixtures/routerbench_sample.csv`. Sus selecciones son una **demostración didáctica** y no deben interpretarse como resultados de RouterBench ni como decisiones de producción.
+
+Documentación completa: [`docs/BONUS_STREAMLIT.md`](docs/BONUS_STREAMLIT.md).
 
 ## Problema de ingeniería
 
@@ -53,7 +75,7 @@ Pregunta de investigación:
 | Brazos fijos | Referencias que siempre seleccionan el mismo modelo |
 | Oracle offline | Cota superior no desplegable |
 
-`EvoCascade-Ideal` permanece versionado como estudio exploratorio adicional. No es necesario para evaluar el cumplimiento obligatorio y usa un verificador ideal simulado, por lo que no representa rendimiento directamente desplegable.
+`EvoCascade-Ideal` permanece versionado como estudio exploratorio adicional. Usa un verificador ideal simulado, por lo que no representa rendimiento directamente desplegable.
 
 ## Arquitectura
 
@@ -104,7 +126,7 @@ El pipeline implementa:
 6. rechazo de duplicados contradictorios;
 7. filtrado de valores inválidos;
 8. conservación de prompts con cuatro brazos completos;
-9. creación de características pre-inferencia;
+9. creación de características preinferencia;
 10. división agrupada por `prompt_id` para evitar fuga de información.
 
 El dataset original y las tablas procesadas fila por fila no se redistribuyen porque la tarjeta de RouterBench no declara una licencia explícita para esos datos. El repositorio publica scripts, checksums, configuraciones, resultados agregados y figuras.
@@ -137,7 +159,7 @@ El experimento utiliza **36.497 prompts**, cuatro modelos, cinco semillas y boot
 
 Conclusión:
 
-> Con las características pre-inferencia actuales, XGBoost y LinUCB no superan de manera estadísticamente significativa a Better Rules Proxy. El Oracle offline demuestra que existe margen real para mejorar el enrutamiento por consulta, pero las señales utilizadas todavía no permiten capturarlo.
+> Con las características preinferencia actuales, XGBoost y LinUCB no superan de manera estadísticamente significativa a Better Rules Proxy. El Oracle offline demuestra que existe margen real para mejorar el enrutamiento por consulta, pero las señales utilizadas todavía no permiten capturarlo.
 
 Este es un resultado válido: permite identificar limitaciones del espacio de características y fundamentar mejoras futuras.
 
@@ -157,7 +179,7 @@ cd better-router-adaptive-research
 python -m venv .venv
 ```
 
-Linux/macOS:
+Linux o macOS:
 
 ```bash
 source .venv/bin/activate
@@ -182,13 +204,13 @@ python -m pytest -q
 
 ## Evaluación completa
 
-Linux/macOS con `make`:
+Linux o macOS con `make`:
 
 ```bash
 make professor-check
 ```
 
-Comandos equivalentes en cualquier sistema:
+Comandos equivalentes:
 
 ```bash
 python -m pytest -q \
@@ -203,7 +225,7 @@ python -m build
 python scripts/verify_professor_submission.py
 ```
 
-La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke tests en Python 3.12 y 3.13.
+La CI ejecuta pruebas, cobertura, lint, formato, tipado estricto, build y smoke tests en Python 3.12 y 3.13. El job `bonus-app` valida adicionalmente la interfaz en Python 3.12.
 
 ## Interfaces de ejecución
 
@@ -221,6 +243,7 @@ python -m better_router_adaptive.evaluate --help
 
 - [Guía de evaluación](EVALUACION_PROFESOR.md)
 - [Entrega académica](ENTREGA.md)
+- [Bonus Streamlit](docs/BONUS_STREAMLIT.md)
 - [Reproducibilidad](docs/REPRODUCIBILITY.md)
 - [Metodología](docs/METHODOLOGY.md)
 - [Diccionario de datos](docs/DATA_DICTIONARY.md)
