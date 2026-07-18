@@ -19,4 +19,8 @@ data/processed/*
 !data/interim/.gitkeep
 !data/processed/.gitkeep
 artifacts/runs/
+.superpowers/
+docs/superpowers/
+docs/reviews/
+docs/evidence/
 .DS_Store
