@@ -8,14 +8,26 @@ from typing import Final
 import pandas as pd
 import streamlit as st
 
-from app.data_access import PublicResults, PublicResultsError, load_public_results
-from app.simulator import (
-    DemoBundle,
-    SimulationError,
-    display_arm,
-    simulate_prompt,
-    train_demo_bundle,
-)
+try:
+    from app.data_access import PublicResults, PublicResultsError, load_public_results
+    from app.simulator import (
+        DemoBundle,
+        SimulationError,
+        display_arm,
+        simulate_prompt,
+        train_demo_bundle,
+    )
+except ModuleNotFoundError as exc:
+    if exc.name != "app":
+        raise
+    from data_access import PublicResults, PublicResultsError, load_public_results
+    from simulator import (
+        DemoBundle,
+        SimulationError,
+        display_arm,
+        simulate_prompt,
+        train_demo_bundle,
+    )
 
 ROOT: Final = Path(__file__).resolve().parents[1]
 _POLICY_LABELS: Final = {
