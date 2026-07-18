@@ -2,34 +2,30 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 from typing import Final
 
-import pandas as pd
-import streamlit as st
-
-try:
-    from app.data_access import PublicResults, PublicResultsError, load_public_results
-    from app.simulator import (
-        DemoBundle,
-        SimulationError,
-        display_arm,
-        simulate_prompt,
-        train_demo_bundle,
-    )
-except ModuleNotFoundError as exc:
-    if exc.name != "app":
-        raise
-    from data_access import PublicResults, PublicResultsError, load_public_results
-    from simulator import (
-        DemoBundle,
-        SimulationError,
-        display_arm,
-        simulate_prompt,
-        train_demo_bundle,
-    )
-
 ROOT: Final = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:  # pragma: no cover - verified by subprocess regression
+    sys.path.insert(0, str(ROOT))
+
+import pandas as pd  # noqa: E402
+import streamlit as st  # noqa: E402
+
+from app.data_access import (  # noqa: E402
+    PublicResults,
+    PublicResultsError,
+    load_public_results,
+)
+from app.simulator import (  # noqa: E402
+    DemoBundle,
+    SimulationError,
+    display_arm,
+    simulate_prompt,
+    train_demo_bundle,
+)
+
 _POLICY_LABELS: Final = {
     "better-rules-proxy": "Better Rules Proxy",
     "xgboost": "XGBoost",
