@@ -1,5 +1,0 @@
-COMMIT_SHA=d80309798c898e0b1f43f99cdc75b9370ee40598
-
-?? docs/evidence/task-1-commit.txt
-
-d803097 (HEAD -> main) research: establish reproducible adaptive routing study
