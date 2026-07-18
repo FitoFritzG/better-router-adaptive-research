@@ -93,7 +93,7 @@ python -m pip install -e ".[dev,app]"
 python -m pytest -q tests/app
 ruff check app tests/app
 ruff format --check app tests/app
-mypy app tests/app
+mypy src tests app
 ```
 
 La CI mantiene además todas las pruebas de la entrega obligatoria.
