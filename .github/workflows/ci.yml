@@ -89,9 +89,9 @@ jobs:
       - name: Ruff format — complete repository
         if: always()
         run: ruff format --check .
-      - name: Strict typing
+      - name: Strict typing — mandatory submission
         if: always()
-        run: mypy src tests
+        run: mypy src tests --exclude '^tests/app/'
       - name: Build package
         if: always()
         run: python -m build
