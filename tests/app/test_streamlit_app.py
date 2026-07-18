@@ -1,6 +1,26 @@
 from __future__ import annotations
 
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def test_streamlit_app_runs_as_a_script_from_repository_root() -> None:
+    pytest.importorskip("streamlit")
+    result = subprocess.run(
+        [sys.executable, "app/streamlit_app.py"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        timeout=45,
+        check=False,
+    )
+
+    assert result.returncode == 0, f"stdout:\n{result.stdout}\n\nstderr:\n{result.stderr}"
 
 
 def test_streamlit_app_renders_core_sections() -> None:

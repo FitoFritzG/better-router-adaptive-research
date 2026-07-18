@@ -2,14 +2,23 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 from typing import Final
 
-import pandas as pd
-import streamlit as st
+ROOT: Final = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:  # pragma: no cover - verified by subprocess regression
+    sys.path.insert(0, str(ROOT))
 
-from app.data_access import PublicResults, PublicResultsError, load_public_results
-from app.simulator import (
+import pandas as pd  # noqa: E402
+import streamlit as st  # noqa: E402
+
+from app.data_access import (  # noqa: E402
+    PublicResults,
+    PublicResultsError,
+    load_public_results,
+)
+from app.simulator import (  # noqa: E402
     DemoBundle,
     SimulationError,
     display_arm,
@@ -17,7 +26,6 @@ from app.simulator import (
     train_demo_bundle,
 )
 
-ROOT: Final = Path(__file__).resolve().parents[1]
 _POLICY_LABELS: Final = {
     "better-rules-proxy": "Better Rules Proxy",
     "xgboost": "XGBoost",
